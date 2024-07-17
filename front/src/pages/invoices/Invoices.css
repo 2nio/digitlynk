@@ -1,0 +1,72 @@
+.Revenue_div_second {
+    background-color: rgb(18, 18, 18);
+    border-radius: 16px;
+    margin-top: 82px;
+    margin-bottom: 16px;
+    width: 90%;
+    height: calc(88% - 82px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 32px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.Revenue_div_entryCrit {
+    background-color: rgb(24, 24, 24);
+    display: flex;
+    width: 100%;
+    min-height: 40px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.Revenue_div_entry {
+    background-color: rgb(24, 24, 24);
+    display: flex;
+    width: 100%;
+    min-height: 64px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
+
+.Revenue_p_crit {
+    font-size: 14px;
+    font-weight: 500;
+    width: 100px;
+    color: #ffffffcc;
+}
+
+.Revenue_p_critInfo {
+    font-size: 15px;
+    font-weight: 500;
+    width: 100px;
+    word-wrap: break-word
+}
+
+.Revenue_p_critInfo span {
+    background-color: #192841;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+.Revenue_p_critAmount {
+    font-size: 18px;
+    font-weight: 400;
+    width: 100px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.Revenue_DropdownArrow {
+    border-radius: 100px;
+}
+
+.Revenue_DropdownArrow:hover {
+    background-color: rgb(18, 18, 18);
+}

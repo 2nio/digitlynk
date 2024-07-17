@@ -1,0 +1,42 @@
+.Navbar_a_logo {
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.Navbar_div_logo {
+    display: flex;
+    align-items: center;
+    margin: 0 8px 0px 24px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0 24px 0px 8px;
+}
+
+nav li {
+    display: flex;
+    align-items: center;
+}
+
+nav li a {
+    text-decoration: none;
+    color: #ffffff;
+    margin: 0 16px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+nav li a:hover {
+    color: #dddddd;
+}
+
+.Navbar_img_logo {
+    aspect-ratio: 1/1;
+    width: 24px;
+    margin-right: 4px;
+}

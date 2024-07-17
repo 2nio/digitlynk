@@ -1,0 +1,121 @@
+.MyAcc_div_main {
+    background-color: rgb(24, 24, 24);
+    width: fit-content;
+    height: fit-content;
+    border-radius: 16px;
+    margin: 80px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px;
+    flex-direction: column;
+}
+
+.MyAcc_div_main input {
+    outline: none;
+    border: none;
+    background-color: rgb(18, 18, 18);
+    width: 320px;
+    height: 40px;
+    border-radius: 20px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-top: 16px;
+}
+
+.MyAcc_div_info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 48px;
+}
+
+.MyAcc_div_photo {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(34, 34, 34);
+    width: 96px;
+    height: 96px;
+    border-radius: 60px;
+}
+
+.MyAcc_div_main button {
+    text-indent: 8px;
+    text-align: start;
+    width: 320px;
+    height: 46px;
+    background-color: rgb(24, 24, 24);
+    border: none;
+    margin-top: 4px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    border-width: 2px;
+}
+
+.MyAcc_div_main button:hover {
+    background-color: rgb(16, 16, 16);
+}
+
+.MyAcc_div_actions {
+    display: flex;
+    flex-direction: column;
+}
+
+.MyAcc_p_label {
+    margin-bottom: 8px;
+    font-weight: 800;
+    font-size: 13px;
+    align-self: flex-start;
+    color: #b4b4b4;
+}
+
+.MyAcc_span_separator {
+    width: 360px;
+    height: 3px;
+    background-color: rgb(32, 32, 32);
+    border-radius: 10px;
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+.MyAcc_div_createAcc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.MyAcc_div_createAcc button {
+    text-align: center;
+    width: 320px;
+    height: 48px;
+    background-color: #02B875;
+    border: none;
+    margin-top: 24px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
+}
+.MyAcc_div_createAcc button:hover {
+    background-color: #02B875;
+}
+
+.MyAcc_div_createAcc p {
+    text-decoration: none;
+    margin-top: 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffffb4;
+    cursor: pointer;
+}
+
+.MyAcc_div_createAcc p:hover {
+    color: #fff;
+}
+
+.MyAcc_div_companies {
+    display: flex;
+    flex-direction: column;
+}

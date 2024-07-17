@@ -1,0 +1,116 @@
+.All_div_main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.Dashboard_div_second {
+    border-radius: 16px;
+    margin-bottom: 16px;
+    width: 98.6%;
+    height: calc(100% - 82px);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 82px;
+    flex-wrap: wrap;
+}
+
+.Dashboard_div_invoices {
+    background: rgba( 16, 16, 16);
+    border-radius: 8px;
+    width: 420px;
+    height: 84.4%;
+    padding: 16px;
+    margin: 8px;
+}
+
+.Dashboard_div_revenue {
+    background: rgba( 16, 16, 16);
+    border-radius: 8px;
+    width: 420px;
+    padding: 16px;
+    margin: 8px;
+}
+
+.Dashboard_div_profitAndLoss {
+    background: rgba( 16, 16, 16);
+    border-radius: 8px;
+    width: 95%;
+    padding: 16px;
+    margin: 8px;
+}
+
+.Dashboard_div_rightColumn {
+
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width: fit-content;
+}
+
+.Dashboard_h1_invoiceList {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.Dashboard_p_invMoney {
+    font-size: 28px;
+    font-weight: 400;
+    color: #ffffffe8;
+    margin-top: 4px;
+}
+
+.Dashboard_div_allInv {
+    width: 100%;
+    height: 90%;
+    border-top: solid 2px #181818;
+    margin-top: 16px;
+}
+
+.Dashboard_div_oneInv {
+    margin-top: 16px;
+    background-color: rgb(24, 24, 24);
+    width: 100%;
+    height: 84px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Dashboard_div_invDetails {
+    margin-left: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Dashboard_p_invFirm {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.Dashboard_p_invEmail {
+    margin-top: 2px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #ffffffcc;
+}
+
+.Dashboard_p_invTotal {
+    font-size: 22px;
+    font-weight: 400;
+    margin-right: 24px;
+}
+
+.Dashboard_div_revenueAndExpenses {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    flex-wrap: wrap;
+}

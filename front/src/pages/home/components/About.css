@@ -1,0 +1,79 @@
+.About_div_main {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.About_div_second {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 48px;
+}
+
+.About_div_industries {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 560px;
+    height: 480px;
+    border-radius: 8px;
+    margin-right: 80px;
+    padding: 24px;
+    background-color: #161616;
+    box-shadow: 6px 6px 2px #202020;
+}
+
+.About_div_solutions {
+    margin-left: 80px;
+    margin-right: 0px;
+}
+
+.About_div_second h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 48px;
+}
+
+.About_div_industries ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.About_div_industries li {
+    list-style: none;
+    margin: 8px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.About_div_uls {
+    display: flex;
+}
+
+.About_div_industry {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border: solid 2px #202020;
+    border-radius: 16px;
+}
+.About_div_industry:hover {
+    border: solid 2px #262626;
+}
+
+.About_img {
+    width: 480px;
+    height: 270px;
+}
+
+.About_p {
+    font-size: 40px;
+    font-weight: 500;
+}
+

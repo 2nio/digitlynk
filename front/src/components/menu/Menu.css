@@ -1,0 +1,48 @@
+.Nav_nav_navbar {
+    background-color: rgba(18, 18, 18, 0.1);
+    backdrop-filter: blur(4px) saturate(160%) contrast(45%) brightness(21%);
+    -webkit-backdrop-filter: blur(4px) saturate(160%) contrast(45%) brightness(21%);
+    height: 50px;
+    display: flex;
+    position: fixed;
+    top: 16px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: fit-content;
+    border-radius: 80px;
+    align-items: center;
+    justify-content: center;
+}
+
+.Nav_ul_navbar {
+    display: flex;
+    align-items: center;
+}
+
+.Nav_div_revenueAndExpenses {
+    background-color: rgb(24, 24, 24);
+    border-radius: 16px;
+    display: none;
+    align-items: center;
+    padding: 6px;
+    margin-right: 8px;
+}
+
+
+.Nav_div_allRevenue {
+    display: flex;
+    align-items: center;
+}
+.Nav_div_allExpenses {
+    display: flex;
+    align-items: center;
+}
+
+.Nav_div_allRevenue:hover > .Nav_div_revenueAndExpenses {
+    display: flex
+}
+
+.Nav_div_allExpenses:hover > .Nav_div_revenueAndExpenses {
+    display: flex
+}

@@ -1,0 +1,69 @@
+.Hero_div_main {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)), url('C:\Users\User\Desktop\Dev\Full-stack\digitlynk\front\src\assets\backgr.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.Hero_div_second {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.Hero_p_maintext {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 500;
+    width: 70%;
+}
+
+.Hero_button_cta {
+    text-decoration: none;
+    background-color: transparent;
+    width: 162px;
+    height: 54px;
+    border-radius: 27px;
+    border-style: solid;
+    border-color: #ffffff;
+    color: #ffffff;
+    margin-top: 32px;
+    font-size: 16px;
+}
+
+.Hero_button_cta:hover {
+    border-color: #cccccc;
+}
+
+.Hero_span_changeWord::before {
+    content: "automate tasks";
+    animation: animate infinite 12s;
+    color: #007fff;
+}
+@keyframes animate {
+    10% {
+        content: "automate tasks";
+    }
+    20% {
+        content: 'manage data';
+    }
+    40% {
+        content: 'analyze data';
+    }
+    60% {
+        content: 'reduce costs';
+    }
+    80% {
+        content: 'control assets';
+    }
+    95% {
+        content: 'save money';
+    }
+}
+
+.Hero_img_hero {
+    width: 773;
+    height: 563px;
+    border-radius: 8px;
+}
