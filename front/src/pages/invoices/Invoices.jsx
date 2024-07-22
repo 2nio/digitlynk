@@ -10,15 +10,18 @@ import Dropdown from '../../components/dropdown-menu/Dropdown';
 import './Invoices.css'
 import { useFetch } from '../../hooks/useFetch';
 import { usePost } from '../../hooks/usePost';
+import AddIncome from '../income/AddIncome';
 
 function Invoices() {
 
     const navigate = useNavigate()
+    const [popupIncome, setPopupIncome] = useState(false)
 
     const today = new Date().toISOString().split('T')[0]
     const [menu, setMenu] = useState('')
     const [dropmenu, setDropMenu] = useState(false)
     const [view, setView] = useState(false)
+    const [invoiceInfo, setInvoiceInfo] = useState()
 
     const { data, loading, fetchData } = useFetch('invoices')
     const { postData: editInvoice, loading: loadingEditInvoice } = usePost('editInvoice')
@@ -44,6 +47,7 @@ function Invoices() {
                 : data &&
                 <div className='Revenue_div_second'>
                     <InvoicePopup view={view} setView={e => setView(e)} invoice={invoice} client={client} />
+                    <AddIncome invoiceInfo={invoiceInfo} popupIncome={popupIncome} setPopup={data => setPopupIncome(data)} />
                     <h1 style={{ marginBottom: '24px' }}>Invoices</h1>
                     <div className='Revenue_div_entryCrit'>
                         <p className='Revenue_p_crit'>NO</p>
@@ -81,18 +85,18 @@ function Invoices() {
                                     },
                                     {
                                         option: item.status === 'Received' ? 'Unreceive' : 'Receive',
-                                        func: () => {
-                                            editInvoice({
-                                                id: item._id,
-                                                data: {
-                                                    status: item.status === 'Received' && item.dueDate >= today ? 'Issued'
-                                                        : item.status === 'Issued' || item.status === 'Overdue' ? 'Received'
-                                                            : 'Overdue'
-                                                }
-                                            },
-                                                fetchData)
-                                            setDropMenu(false)
-                                        }
+                                        func: item.status === 'Issued' || item.status === 'Overdue' ?
+                                            () => { setInvoiceInfo(item); console.log(item); setPopupIncome(true) }
+                                            : () => {
+                                                editInvoice({
+                                                    id: item._id,
+                                                    data: {
+                                                        status: item.status === 'Received' && item.dueDate >= today ? 'Issued' : 'Overdue'
+                                                    }
+                                                },
+                                                    fetchData)
+                                                setDropMenu(false)
+                                            }
                                     },
                                     {
                                         option: 'Edit',

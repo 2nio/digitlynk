@@ -1,27 +1,24 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { useNavigate } from "react-router-dom";
-
-import axios from 'axios'
 
 import AddClient from '../../components/AddClient';
 import { usePost } from '../../hooks/usePost';
 import { closePopup } from '../../functions/closePopup';
+import { useFetch } from '../../hooks/useFetch';
 
-function AddIncome({ popupIncome, setPopup }) {
-
-    const navigate = useNavigate()
+function AddIncome({ invoiceInfo, popupIncome, setPopup }) {
 
     const popupRef = useRef()
-    const [client, setClient] = useState("")
     const [type, setType] = useState('Income')
     const [bank, setBank] = useState('')
     const [IBAN, setIBAN] = useState('')
     const [date, setDate] = useState('')
     const [amount, setAmount] = useState('')
-    const [invoiceNr, setInvoiceNr] = useState('')
+    const [number, setNumber] = useState('')
     const [category, setCategory] = useState('')
     const [notes, setNotes] = useState('')
 
+    const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
+    const { data: client, loading: loadingClient, fetchData: fetchClient } = useFetch('client')
     const { postData: postIncome, loading: loadingIncome } = usePost('income')
 
     useEffect(() => {
@@ -32,23 +29,18 @@ function AddIncome({ popupIncome, setPopup }) {
         closePopup(() => { popupRef.current.close(); setPopup(false) }, popupRef)
     }, [])
 
-    const createIncome = () => {
-        axios.post(`${process.env.REACT_APP_BACKEND_URL}/income`, { client, type, bank, IBAN, invoiceNr, category, date, amount, notes })
-            .then(res => console.log(res))
-            .catch(err => {
-                console.log(err)
-                if (err.response.data.error === 'ExpiredRefreshToken') {
-                    navigate('/login')
-                }
-            })
-    }
+    useEffect(() => {
+        fetchClient({ params: { id: invoiceInfo?.clientId } })
+        setAmount(invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0))
+    }, [invoiceInfo])
+
 
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '16px' }}>Add income</h1>
             <div className='CreateInv_div_popupInfo'>
                 <div className='CreateInv_div_popupInfoChild'>
-                    <AddClient sendClient={data => setClient(data)} />
+                    <AddClient receive={true} clientCompany={invoiceInfo?.clientCompany} sendClient={data => fetchClient({ params: { id: data } })} />
                     <label className='CreateInv_label'>
                         <p className='CreateInv_p_label'>TYPE</p>
                         <select className='CreateInv_select' onChange={e => setType(e.target.value)}>
@@ -71,8 +63,8 @@ function AddIncome({ popupIncome, setPopup }) {
                 </div>
                 <div className='CreateInv_div_popupInfoChild' >
                     <label className='CreateInv_label'>
-                        <p className='CreateInv_p_label'>INVOICE NUMBER</p>
-                        <input placeholder='Number' className='CreateInv_input' onChange={e => setInvoiceNr(e.target.value)}></input>
+                        <p className='CreateInv_p_label'>NUMBER</p>
+                        <input placeholder='Number' className='CreateInv_input' onChange={e => setNumber(e.target.value)}></input>
                     </label>
                     <label className='CreateInv_label'>
                         <p className='CreateInv_p_label'>CATEGORY</p>
@@ -84,7 +76,7 @@ function AddIncome({ popupIncome, setPopup }) {
                     </label>
                     <label className='CreateInv_label'>
                         <p className='CreateInv_p_label'>AMOUNT</p>
-                        <input placeholder='Amount' className='CreateInv_input' onChange={e => setAmount(e.target.value)}></input>
+                        <input placeholder='Amount' defaultValue={amount} className='CreateInv_input' onChange={e => setAmount(e.target.value)}></input>
                     </label>
                 </div>
             </div>
@@ -94,11 +86,18 @@ function AddIncome({ popupIncome, setPopup }) {
                     <textarea onChange={e => setNotes(e.target.value)} placeholder='Notes' />
                 </label>
                 <div className='CreateInv_div_bottomButtons'>
-                    <button className='CreateInv_button_bottom' onClick={createIncome}>Save</button>
+                    <button className='CreateInv_button_bottom'
+                        onClick={() =>
+                            postIncome({
+                                companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
+                                invoice: invoiceInfo?.number, type, bank, IBAN, number, category, date, amount, notes
+                            }, () => { popupRef.current.close(); setPopup(false) })
+
+                        }>Save</button>
                     <button className='CreateInv_button_bottom' onClick={e => { popupRef.current.close(); setPopup(false) }}>Cancel</button>
                 </div>
             </div>
-        </dialog>
+        </dialog >
     )
 }
 

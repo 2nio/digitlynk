@@ -8,13 +8,13 @@ import { closePopup } from '../functions/closePopup';
 import { useFetch } from '../hooks/useFetch';
 import { usePost } from '../hooks/usePost';
 
-function AddClient({ clientCompany, sendClient }) {
+function AddClient({ receive, clientCompany, sendClient }) {
 
     const navigate = useNavigate()
 
     //Dropmenu
     const [searchClient, setSearchClient] = useState("")
-    const [client, setClient] = useState(clientCompany)
+    const [client, setClient] = useState()
     const [dropmenu, setDropMenu] = useState(false)
     const dropmenuRef = useRef()
 
@@ -55,6 +55,10 @@ function AddClient({ clientCompany, sendClient }) {
         }, popupRef)
     }, [])
 
+    useEffect(() => {
+        setClient(clientCompany)
+    }, [clientCompany])
+
     const createClient = (e) => {
         fetchClients()
         popupRef.current.close()
@@ -70,7 +74,7 @@ function AddClient({ clientCompany, sendClient }) {
                     {loadingClients ? <div>Loading...</div> :
                         clients &&
                         <div ref={dropmenuRef}>
-                            <RiArrowDropDownLine onClick={e => setDropMenu(!dropmenu)} size={'1.4rem'} />
+                            {!receive && <RiArrowDropDownLine onClick={e => setDropMenu(!dropmenu)} size={'1.4rem'} />}
                             <div className='CreateInv_div_dropdown' style={{ display: dropmenu && 'flex' }}>
                                 <div className='CreateInv_div_dropdownAdd'>
                                     <input value={searchClient} onChange={e => setSearchClient(e.target.value)} placeholder='Search for client' />
