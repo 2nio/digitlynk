@@ -1,5 +1,5 @@
 .Hero_div_main {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)), url('C:\Users\User\Desktop\Dev\Full-stack\digitlynk\front\src\assets\backgr.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.64)), url('../../../assets/backgr.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -41,22 +41,28 @@
     animation: animate infinite 12s;
     color: #007fff;
 }
+
 @keyframes animate {
     10% {
         content: "automate tasks";
     }
+
     20% {
         content: 'manage data';
     }
+
     40% {
         content: 'analyze data';
     }
+
     60% {
         content: 'reduce costs';
     }
+
     80% {
         content: 'control assets';
     }
+
     95% {
         content: 'save money';
     }

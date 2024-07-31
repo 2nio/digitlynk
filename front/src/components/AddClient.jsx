@@ -1,16 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react'
-import { useNavigate } from "react-router-dom";
 
-import axios from 'axios'
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { IoAdd } from "react-icons/io5";
 import { closePopup } from '../functions/closePopup';
 import { useFetch } from '../hooks/useFetch';
 import { usePost } from '../hooks/usePost';
 
-function AddClient({ receive, clientCompany, sendClient }) {
-
-    const navigate = useNavigate()
+function AddClient({ choose, clientCompany, sendClient }) {
 
     //Dropmenu
     const [searchClient, setSearchClient] = useState("")
@@ -56,7 +52,9 @@ function AddClient({ receive, clientCompany, sendClient }) {
     }, [])
 
     useEffect(() => {
-        setClient(clientCompany)
+        console.log(clientCompany)
+        if (clientCompany === 'reset') setClient('')
+        else setClient(clientCompany)
     }, [clientCompany])
 
     const createClient = (e) => {
@@ -74,7 +72,7 @@ function AddClient({ receive, clientCompany, sendClient }) {
                     {loadingClients ? <div>Loading...</div> :
                         clients &&
                         <div ref={dropmenuRef}>
-                            {!receive && <RiArrowDropDownLine onClick={e => setDropMenu(!dropmenu)} size={'1.4rem'} />}
+                            {!choose && <RiArrowDropDownLine onClick={e => setDropMenu(!dropmenu)} size={'1.4rem'} />}
                             <div className='CreateInv_div_dropdown' style={{ display: dropmenu && 'flex' }}>
                                 <div className='CreateInv_div_dropdownAdd'>
                                     <input value={searchClient} onChange={e => setSearchClient(e.target.value)} placeholder='Search for client' />

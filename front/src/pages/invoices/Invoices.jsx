@@ -47,7 +47,7 @@ function Invoices() {
                 : data &&
                 <div className='Revenue_div_second'>
                     <InvoicePopup view={view} setView={e => setView(e)} invoice={invoice} client={client} />
-                    <AddIncome invoiceInfo={invoiceInfo} popupIncome={popupIncome} setPopup={data => setPopupIncome(data)} />
+                    <AddIncome choose={true} invoiceInfo={invoiceInfo} popupIncome={popupIncome} setPopup={data => setPopupIncome(data)} />
                     <h1 style={{ marginBottom: '24px' }}>Invoices</h1>
                     <div className='Revenue_div_entryCrit'>
                         <p className='Revenue_p_crit'>NO</p>
