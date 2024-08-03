@@ -24,18 +24,8 @@ const businessSchema = new mongoose.Schema({
     website: String,
     invoices: [String],
     users: [String],
-    providers: [{
-        contactPerson: String,
-        company: String,
-        bank: String,
-        IBAN: String,
-        address: String,
-        phone: String,
-        email: String,
-        website: String,
-        notes: String
-    }],
     clients: [{
+        contactType: String,
         fullName: String,
         company: String,
         bank: String,

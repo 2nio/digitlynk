@@ -39,6 +39,10 @@ function Invoices() {
         })
     }, [data])
 
+    useEffect(() => {
+        !popupIncome && setInvoiceInfo(null)
+    }, [popupIncome])
+
     return (
         <div className='All_div_main'>
             <Menu />
@@ -86,7 +90,7 @@ function Invoices() {
                                     {
                                         option: item.status === 'Received' ? 'Unreceive' : 'Receive',
                                         func: item.status === 'Issued' || item.status === 'Overdue' ?
-                                            () => { setInvoiceInfo(item); console.log(item); setPopupIncome(true) }
+                                            () => { setInvoiceInfo(item); setPopupIncome(true) }
                                             : () => {
                                                 editInvoice({
                                                     id: item._id,

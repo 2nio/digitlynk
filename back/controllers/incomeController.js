@@ -12,10 +12,34 @@ const createIncome = async (req, res) => {
     }
 }
 
-const getIncome = (req, res) => {
+const getAllIncome = (req, res) => {
     incomeModel.find()
         .then(result => res.json(result))
         .catch(err => res.json(err))
 }
 
-module.exports = { createIncome, getIncome }
+const deleteIncome = async (req, res) => {
+    const { id } = req.body
+    try {
+        await incomeModel.findByIdAndDelete(id)
+        res.status(200).json('Income deleted')
+    } catch (err) {
+        res.status(400).json({ error: err.message })
+    }
+}
+
+const getIncome = (req, res) => {
+    const { id } = req.query
+    incomeModel.findById(id)
+        .then(result => res.json(result))
+        .catch(err => res.json(err))
+}
+
+const editIncome = (req, res) => {
+    const { id, data } = req.body
+    incomeModel.findByIdAndUpdate(id, data)
+        .then(result => res.json(result))
+        .catch(err => res.json(err))
+}
+
+module.exports = { createIncome, getAllIncome, deleteIncome, getIncome, editIncome }

@@ -5,7 +5,7 @@ import { usePost } from '../../hooks/usePost';
 import { closePopup } from '../../functions/closePopup';
 import { useFetch } from '../../hooks/useFetch';
 
-function AddIncome({ choose, invoiceInfo, popupIncome, setPopup }) {
+function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, setPopup }) {
 
     const popupRef = useRef()
     const [clientInput, setClientInput] = useState('')
@@ -34,13 +34,21 @@ function AddIncome({ choose, invoiceInfo, popupIncome, setPopup }) {
     }, [popupIncome])
 
     useEffect(() => {
-        closePopup(() => { popupRef.current.close(); setPopup(false) }, popupRef)
+        closePopup(() => { popupRef.current.close(); setPopup(false); clearState(); }, popupRef)
     }, [])
 
     useEffect(() => {
         fetchClient({ params: { id: invoiceInfo?.clientId } })
+        setClientInput(invoiceInfo?.clientCompany)
         setAmount(invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0))
     }, [invoiceInfo])
+
+    useEffect(() => {
+        fetchClient({ params: { id: incomeInfo?.clientId } })
+        setClientInput(incomeInfo?.clientCompany)
+        setAmount(incomeInfo?.amount); setBank(incomeInfo?.bank); setIBAN(incomeInfo?.IBAN); setCategory(incomeInfo?.category);
+        setDate(incomeInfo?.date); setNumber(incomeInfo?.number); setNotes(incomeInfo?.notes); setType(incomeInfo?.type)
+    }, [incomeInfo])
 
 
     return (
@@ -49,39 +57,41 @@ function AddIncome({ choose, invoiceInfo, popupIncome, setPopup }) {
             <form id='CreateInv_div_form'>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
-                        <AddClient choose={choose} clientCompany={invoiceInfo?.clientCompany || clientInput} sendClient={data => fetchClient({ params: { id: data } })} />
+                        <AddClient contactType={contactType} choose={choose}
+                            clientCompany={clientInput}
+                            sendClient={data => fetchClient({ params: { id: data } })} />
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>TYPE</p>
-                            <select className='CreateInv_select' onChange={e => setType(e.target.value)}>
+                            <select className='CreateInv_select' value={type} onChange={e => setType(e.target.value)}>
                                 <option value="Income">Income</option>
                                 <option value="Receipt">Receipt</option>
                                 <option value="Card">Card</option>
-                                <option value="Card">Bank transfer</option>
-                                <option value="Card">Cash</option>
-                                <option value="Card">Check</option>
+                                <option value="Bank transfer">Bank transfer</option>
+                                <option value="Cash">Cash</option>
+                                <option value="Check">Check</option>
                             </select>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>BANK</p>
-                            <input placeholder='Bank' className='CreateInv_input' onChange={e => setBank(e.target.value)}></input>
+                            <input placeholder='Bank' defaultValue={bank} className='CreateInv_input' onChange={e => setBank(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>IBAN</p>
-                            <input placeholder='IBAN' className='CreateInv_input' onChange={e => setIBAN(e.target.value)}></input>
+                            <input placeholder='IBAN' defaultValue={IBAN} className='CreateInv_input' onChange={e => setIBAN(e.target.value)}></input>
                         </label>
                     </div>
                     <div className='CreateInv_div_popupInfoChild' >
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>NUMBER</p>
-                            <input placeholder='Number' className='CreateInv_input' onChange={e => setNumber(e.target.value)}></input>
+                            <input placeholder='Number' defaultValue={number} className='CreateInv_input' onChange={e => setNumber(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>CATEGORY</p>
-                            <input placeholder='Category' className='CreateInv_input' onChange={e => setCategory(e.target.value)}></input>
+                            <input placeholder='Category' defaultValue={category} className='CreateInv_input' onChange={e => setCategory(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>DATE</p>
-                            <input placeholder='Date' type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
+                            <input placeholder='Date' defaultValue={date} type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>AMOUNT</p>
@@ -92,7 +102,7 @@ function AddIncome({ choose, invoiceInfo, popupIncome, setPopup }) {
                 <div className='CreateInv_div_popupInfoBottom'>
                     <label className='CreateInv_label'>
                         <p className='CreateInv_p_label'>NOTES</p>
-                        <textarea onChange={e => setNotes(e.target.value)} placeholder='Notes' />
+                        <textarea onChange={e => setNotes(e.target.value)} defaultValue={notes} placeholder='Notes' />
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
                         <button className='CreateInv_button_bottom' type='button'

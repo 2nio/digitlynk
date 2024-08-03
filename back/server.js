@@ -9,7 +9,8 @@ require('dotenv').config()
 const { Signup, Login, getUser, Signout, setCurrentCompany, findUser } = require('./controllers/userController')
 const { createBusiness, getBusiness, createClient, getAllClients, editBusiness, getClient } = require('./controllers/businessController')
 const { createInvoice, getAllInvoices, getInvoice, editInvoice, deleteInvoice } = require('./controllers/invoiceController')
-const { createIncome, getIncome } = require('./controllers/incomeController')
+const { createIncome, getAllIncome, deleteIncome, getIncome, editIncome } = require('./controllers/incomeController')
+const { createBill, getAllBills, deleteBill, getBill, editBill } = require('./controllers/billController')
 
 const app = express();
 app.use(express.json())
@@ -65,4 +66,14 @@ app.post('/deleteInvoice', deleteInvoice)
 
 //Income
 app.post('/income', createIncome)
+app.get('/allIncome', getAllIncome)
+app.post('/deleteIncome', deleteIncome)
 app.get('/income', getIncome)
+app.post('/editIncome', editIncome)
+
+//Bill
+app.post('/bill', createBill)
+app.get('/bills', getAllBills)
+app.post('/deleteBill', deleteBill)
+app.get('/bill', getBill)
+app.post('/editBill', editBill)

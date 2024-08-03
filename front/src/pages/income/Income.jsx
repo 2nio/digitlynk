@@ -6,20 +6,23 @@ import Menu from '../../components/menu/Menu'
 import AddIncome from './AddIncome';
 import { useFetch } from '../../hooks/useFetch';
 import Dropdown from '../../components/dropdown-menu/Dropdown';
+import { usePost } from '../../hooks/usePost';
 
 function Income() {
 
     const [menu, setMenu] = useState('')
     const [dropmenu, setDropMenu] = useState(false)
     const [popupIncome, setPopupIncome] = useState(false)
+    const [incomeInfo, setIncomeInfo] = useState()
 
-    const { data: income, loading: loadingIncome, fetchData: fetchIncome } = useFetch('income')
+    const { data: income, loading: loadingIncome, fetchData: fetchIncome } = useFetch('allIncome')
+    const { postData: deleteIncome, loading: loadingDeleteIncome } = usePost('deleteIncome')
 
     return (
         <div className='All_div_main'>
             <Menu />
 
-            <AddIncome popupIncome={popupIncome} setPopup={data => { setPopupIncome(data); fetchIncome() }} />
+            <AddIncome contactType={'client'} incomeInfo={incomeInfo} popupIncome={popupIncome} setPopup={data => { setPopupIncome(data); fetchIncome() }} />
 
             {loadingIncome ? <div>Loading...</div>
                 : income &&
@@ -49,8 +52,15 @@ function Income() {
                                 <Dropdown menuOptions={[
                                     {
                                         option: 'View',
-                                        func: () => null
-                                    }
+                                        func: () => {
+                                            setPopupIncome(true)
+                                            setIncomeInfo(item)
+                                        }
+                                    },
+                                    {
+                                        option: 'Delete',
+                                        func: () => deleteIncome({ id: item._id }, fetchIncome)
+                                    },
 
                                 ]}
                                     parentState={value => setDropMenu(value)}

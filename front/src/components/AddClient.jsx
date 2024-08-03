@@ -6,7 +6,7 @@ import { closePopup } from '../functions/closePopup';
 import { useFetch } from '../hooks/useFetch';
 import { usePost } from '../hooks/usePost';
 
-function AddClient({ choose, clientCompany, sendClient }) {
+function AddClient({ contactType, choose, clientCompany, sendClient }) {
 
     //Dropmenu
     const [searchClient, setSearchClient] = useState("")
@@ -52,7 +52,6 @@ function AddClient({ choose, clientCompany, sendClient }) {
     }, [])
 
     useEffect(() => {
-        console.log(clientCompany)
         if (clientCompany === 'reset') setClient('')
         else setClient(clientCompany)
     }, [clientCompany])
@@ -66,23 +65,24 @@ function AddClient({ choose, clientCompany, sendClient }) {
     return (
         <div className='CreateInv_div_info'>
             <label className='CreateInv_label'>
-                <p className='CreateInv_p_label'>CLIENT</p>
+                <p className='CreateInv_p_label'>{contactType === 'client' ? 'CLIENT' : 'PROVIDER'}</p>
                 <div className='CreateInv_div_client'>
-                    {client || <p className='CreateInv_p_client'>Select client</p>}
+                    {client || <p className='CreateInv_p_client'>Select {contactType === 'client' ? 'client' : 'provider'}</p>}
                     {loadingClients ? <div>Loading...</div> :
-                        clients &&
                         <div ref={dropmenuRef}>
                             {!choose && <RiArrowDropDownLine onClick={e => setDropMenu(!dropmenu)} size={'1.4rem'} />}
                             <div className='CreateInv_div_dropdown' style={{ display: dropmenu && 'flex' }}>
                                 <div className='CreateInv_div_dropdownAdd'>
-                                    <input value={searchClient} onChange={e => setSearchClient(e.target.value)} placeholder='Search for client' />
+                                    <input value={searchClient} onChange={e => setSearchClient(e.target.value)}
+                                        placeholder={contactType === 'client' ? 'Search for client' : 'Search for provider'} />
                                     <IoAdd onClick={e => { popupRef.current.showModal(); setDropMenu(false) }} size={'1.3rem'} />
                                 </div>
-                                <div className='CreateInv_div_dropdownClients'>
-                                    {clients.filter(item => item.company.includes(searchClient)).map(item =>
-                                        <li onClick={e => { setClient(item.company); sendClient(item._id); setDropMenu(false) }}>{item.company}</li>
-                                    )}
-                                </div>
+                                {clients &&
+                                    <div className='CreateInv_div_dropdownClients'>
+                                        {clients.filter(item => item.company.includes(searchClient) && item.contactType === contactType).map(item =>
+                                            <li onClick={e => { setClient(item.company); sendClient(item._id); setDropMenu(false) }}>{item.company}</li>
+                                        )}
+                                    </div>}
                             </div>
                         </div>}
                 </div>
@@ -134,8 +134,8 @@ function AddClient({ choose, clientCompany, sendClient }) {
                             <textarea placeholder='Notes' />
                         </label>
                         <div className='CreateInv_div_bottomButtons'>
-                            <button className='CreateInv_button_bottom' onClick={
-                                () => postClient({ fullname, company, bank, IBAN, address, phone, email, website, notes }, createClient)
+                            <button className='CreateInv_button_bottom' type='button' onClick={
+                                () => postClient({ contactType, fullname, company, bank, IBAN, address, phone, email, website, notes }, createClient)
                             }>Save</button>
                             <button className='CreateInv_button_secondary' type='button'
                                 onClick={() => {
