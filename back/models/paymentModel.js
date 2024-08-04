@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const incomeSchema = new mongoose.Schema({
+const paymentSchema = new mongoose.Schema({
     companyId: {
         type: String,
         required: true
@@ -20,9 +20,9 @@ const incomeSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true,
-        default: 'Income'
+        default: 'Payment'
     },
-    invoice: {
+    bill: {
         type: String,
     },
     notes: {
@@ -45,5 +45,5 @@ const incomeSchema = new mongoose.Schema({
 
 })
 
-const incomeModel = mongoose.model('Income', incomeSchema)
-module.exports = incomeModel
+const paymentModel = mongoose.model('payment', paymentSchema)
+module.exports = paymentModel

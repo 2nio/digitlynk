@@ -10,7 +10,8 @@ const { Signup, Login, getUser, Signout, setCurrentCompany, findUser } = require
 const { createBusiness, getBusiness, createClient, getAllClients, editBusiness, getClient } = require('./controllers/businessController')
 const { createInvoice, getAllInvoices, getInvoice, editInvoice, deleteInvoice } = require('./controllers/invoiceController')
 const { createIncome, getAllIncome, deleteIncome, getIncome, editIncome } = require('./controllers/incomeController')
-const { createBill, getAllBills, deleteBill, getBill, editBill } = require('./controllers/billController')
+const { createBill, getAllBills, deleteBill, getBill, editBill } = require('./controllers/billController');
+const { createPayment, getAllPayments, deletePayment, getPayment, editPayment } = require('./controllers/paymentController');
 
 const app = express();
 app.use(express.json())
@@ -77,3 +78,10 @@ app.get('/bills', getAllBills)
 app.post('/deleteBill', deleteBill)
 app.get('/bill', getBill)
 app.post('/editBill', editBill)
+
+//Payment
+app.post('/payment', createPayment)
+app.get('/payments', getAllPayments)
+app.post('/deletePayment', deletePayment)
+app.get('/payment', getPayment)
+app.post('/editPayment', editPayment)

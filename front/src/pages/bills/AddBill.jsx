@@ -49,23 +49,24 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
                     <div className='CreateInv_div_popupInfoChild'>
                         <AddClient contactType={contactType} choose={choose} clientCompany={clientInput}
                             sendClient={data => fetchClient({ params: { id: data } })} />
+                        <input required value={client?._id} style={{ display: 'none' }} />
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>DATE</p>
-                            <input placeholder='Date' defaultValue={date} type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
+                            <input placeholder='Date' required defaultValue={date} type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>DUE DATE</p>
-                            <input placeholder='Due date' defaultValue={dueDate} type='date' className='CreateInv_input' onChange={e => setDueDate(e.target.value)}></input>
+                            <input placeholder='Due date' required defaultValue={dueDate} type='date' className='CreateInv_input' onChange={e => setDueDate(e.target.value)}></input>
                         </label>
                     </div>
                     <div className='CreateInv_div_popupInfoChild' >
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>NUMBER</p>
-                            <input placeholder='Number' defaultValue={number} className='CreateInv_input' onChange={e => setNumber(e.target.value)}></input>
+                            <input placeholder='Number' required defaultValue={number} className='CreateInv_input' onChange={e => setNumber(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>AMOUNT</p>
-                            <input placeholder='Amount' defaultValue={amount} className='CreateInv_input' onChange={e => setAmount(e.target.value)}></input>
+                            <input placeholder='Amount' required defaultValue={amount} className='CreateInv_input' onChange={e => setAmount(e.target.value)}></input>
                         </label>
                     </div>
                 </div>
@@ -75,8 +76,8 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
                         <textarea onChange={e => setNote(e.target.value)} defaultValue={note} placeholder='Notes' />
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
-                        <button className='CreateInv_button_bottom' type='button'
-                            onClick={billInfo ? () => {
+                        <button className='CreateInv_button_bottom' type='submit'
+                            onClick={billInfo && number && date && dueDate && amount && client?._id ? () => {
                                 editBill({
                                     id: billInfo._id, data: {
                                         companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
@@ -85,13 +86,13 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
                                 }, () => { popupRef.current.close(); setPopup(false) })
                                 clearState()
                                 clearState()
-                            } : () => {
+                            } : number && date && dueDate && amount && client?._id ? () => {
                                 postBill({
                                     companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
                                     number, date, dueDate, amount, note
                                 }, () => { popupRef.current.close(); setPopup(false) })
                                 clearState()
-                            }
+                            } : !client?._id ? () => setClientInput('Please fill this') : null
                             }>Save</button>
                         <button type='button' className='CreateInv_button_bottom'
                             onClick={e => { popupRef.current.close(); setPopup(false); clearState() }}>Cancel</button>

@@ -7,9 +7,9 @@ import { RiArrowDropDownLine } from "react-icons/ri";
 import Menu from '../../components/menu/Menu'
 import Dropdown from '../../components/dropdown-menu/Dropdown';
 import { useFetch } from '../../hooks/useFetch';
-import AddIncome from '../income/AddIncome';
 import AddBill from './AddBill';
 import { usePost } from '../../hooks/usePost';
+import AddPayment from '../payments/AddPayment';
 
 
 function Bills() {
@@ -19,11 +19,13 @@ function Bills() {
     const [menu, setMenu] = useState('')
     const [dropmenu, setDropMenu] = useState(false)
     const [popupIncome, setPopupIncome] = useState(false)
+    const [popupPayment, setPopupPayment] = useState(false)
     const [billInfo, setBillInfo] = useState()
 
     const { data: bills, loading: loadingBills, fetchData: fetchBills } = useFetch('bills')
     const { postData: deleteBill, loading: loadingdeleteBill } = usePost('deleteBill')
     const { postData: editBill, loading: loadingEditBill } = usePost('editBill')
+    const { data: payment, loading: loadingPayment, fetchData: fetchPayment } = useFetch('payment')
 
     useEffect(() => {
         bills?.map(item => {
@@ -39,11 +41,16 @@ function Bills() {
         document.title = "DigitLynk | Bills"
     }, [])
 
+    useEffect(() => {
+        !popupPayment && setBillInfo(null)
+    }, [popupPayment])
+
     return (
         <div className='All_div_main'>
             <Menu />
             <AddBill contactType={'provider'} billInfo={billInfo} popupIncome={popupIncome}
                 setPopup={data => { setPopupIncome(data); setBillInfo(false); fetchBills() }} />
+            <AddPayment choose={true} billInfo={billInfo} popupPayment={popupPayment} setPopup={data => setPopupPayment(data)} />
 
             {loadingBills ? <div>Loading...</div>
                 : bills &&
@@ -84,7 +91,7 @@ function Bills() {
                                     {
                                         option: item.status === 'Paid' ? 'Unpay' : 'Pay',
                                         func: item.status === 'Issued' || item.status === 'Overdue' ?
-                                            () => { setBillInfo(item); console.log(item); setPopupIncome(true) }
+                                            () => { setBillInfo(item); setPopupPayment(true) }
                                             : () => {
                                                 editBill({
                                                     id: item._id,
