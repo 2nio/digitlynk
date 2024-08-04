@@ -42,7 +42,8 @@ function Bills() {
     return (
         <div className='All_div_main'>
             <Menu />
-            <AddBill contactType={'provider'} billInfo={billInfo} popupIncome={popupIncome} setPopup={data => { setPopupIncome(data); fetchBills() }} />
+            <AddBill contactType={'provider'} billInfo={billInfo} popupIncome={popupIncome}
+                setPopup={data => { setPopupIncome(data); setBillInfo(false); fetchBills() }} />
 
             {loadingBills ? <div>Loading...</div>
                 : bills &&

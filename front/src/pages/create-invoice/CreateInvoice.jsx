@@ -101,7 +101,7 @@ function CreateInvoice() {
                     <div className={preview ? 'none' : 'Revenue_div_second'}>
                         <h1 style={{ marginBottom: '40px' }}>{invoiceId ? 'Edit invoice' : 'Create invoice'}</h1>
                         <div className='CreateInv_div_info'>
-                            <AddClient clientCompany={invoice?.clientCompany} sendClient={sendClient} />
+                            <AddClient left={'5.2%'} contactType={'client'} clientCompany={invoice?.clientCompany} sendClient={sendClient} />
                             <label className='CreateInv_label'>
                                 <p className='CreateInv_p_label'>DATE</p>
                                 <input defaultValue={invoice?.date} placeholder='Date' type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>

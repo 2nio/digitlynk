@@ -21,6 +21,7 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
     const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
     const { data: client, loading: loadingClient, fetchData: fetchClient } = useFetch('client')
     const { postData: postIncome, loading: loadingIncome } = usePost('income')
+    const { postData: editIncome, loading: loadingEditIncome } = usePost('editIncome')
 
     const clearState = () => {
         setClientInput('reset')
@@ -53,7 +54,7 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
 
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
-            <h1 style={{ marginBottom: '16px' }}>Add income</h1>
+            <h1 style={{ marginBottom: '16px' }}>{incomeInfo ? 'Edit income' : 'Add income'}</h1>
             <form id='CreateInv_div_form'>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
@@ -106,7 +107,15 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
                         <button className='CreateInv_button_bottom' type='button'
-                            onClick={() => {
+                            onClick={incomeInfo ? () => {
+                                editIncome({
+                                    id: incomeInfo._id, data: {
+                                        companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
+                                        invoice: invoiceInfo?.number, type, bank, IBAN, number, category, date, amount, notes
+                                    }
+                                }, () => { popupRef.current.close(); setPopup(false) })
+                                clearState()
+                            } : () => {
                                 postIncome({
                                     companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
                                     invoice: invoiceInfo?.number, type, bank, IBAN, number, category, date, amount, notes

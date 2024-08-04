@@ -22,7 +22,8 @@ function Income() {
         <div className='All_div_main'>
             <Menu />
 
-            <AddIncome contactType={'client'} incomeInfo={incomeInfo} popupIncome={popupIncome} setPopup={data => { setPopupIncome(data); fetchIncome() }} />
+            <AddIncome contactType={'client'} incomeInfo={incomeInfo} popupIncome={popupIncome}
+                setPopup={data => { setPopupIncome(data); setIncomeInfo(false); fetchIncome() }} />
 
             {loadingIncome ? <div>Loading...</div>
                 : income &&

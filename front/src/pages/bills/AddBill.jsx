@@ -18,6 +18,7 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
     const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
     const { data: client, loading: loadingClient, fetchData: fetchClient } = useFetch('client')
     const { postData: postBill, loading: loadingPostBill } = usePost('bill')
+    const { postData: editBill, loading: loadingEditBill } = usePost('editBill')
 
     const clearState = () => {
         setClientInput('reset')
@@ -42,7 +43,7 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
 
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
-            <h1 style={{ marginBottom: '40px' }}>Add bill</h1>
+            <h1 style={{ marginBottom: '40px' }}>{billInfo ? 'Edit bill' : 'Add bill'}</h1>
             <form id='CreateInv_div_form'>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
@@ -75,7 +76,16 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
                         <button className='CreateInv_button_bottom' type='button'
-                            onClick={() => {
+                            onClick={billInfo ? () => {
+                                editBill({
+                                    id: billInfo._id, data: {
+                                        companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
+                                        number, date, dueDate, amount, note
+                                    }
+                                }, () => { popupRef.current.close(); setPopup(false) })
+                                clearState()
+                                clearState()
+                            } : () => {
                                 postBill({
                                     companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
                                     number, date, dueDate, amount, note

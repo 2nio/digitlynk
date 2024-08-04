@@ -6,7 +6,7 @@ import { closePopup } from '../functions/closePopup';
 import { useFetch } from '../hooks/useFetch';
 import { usePost } from '../hooks/usePost';
 
-function AddClient({ contactType, choose, clientCompany, sendClient }) {
+function AddClient({ left, contactType, choose, clientCompany, sendClient }) {
 
     //Dropmenu
     const [searchClient, setSearchClient] = useState("")
@@ -71,7 +71,7 @@ function AddClient({ contactType, choose, clientCompany, sendClient }) {
                     {loadingClients ? <div>Loading...</div> :
                         <div ref={dropmenuRef}>
                             {!choose && <RiArrowDropDownLine onClick={e => setDropMenu(!dropmenu)} size={'1.4rem'} />}
-                            <div className='CreateInv_div_dropdown' style={{ display: dropmenu && 'flex' }}>
+                            <div className='CreateInv_div_dropdown' style={{ display: dropmenu && 'flex', left: left }}>
                                 <div className='CreateInv_div_dropdownAdd'>
                                     <input value={searchClient} onChange={e => setSearchClient(e.target.value)}
                                         placeholder={contactType === 'client' ? 'Search for client' : 'Search for provider'} />
