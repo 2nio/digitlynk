@@ -1,5 +1,4 @@
 const invoiceModel = require('../models/invoiceModel')
-const businessModel = require('../models/businessModel')
 const userModel = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
@@ -20,7 +19,7 @@ const getAllInvoices = async (req, res) => {
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
         const User = await userModel.findById(Token.id)
-        const Invoices = await invoiceModel.find({ companyId: User.currentCompany })
+        const Invoices = await invoiceModel.find({ companyId: User.currentCompany }).populate({ path: 'payment', select: ['amount'] })
         res.status(200).json(Invoices)
     } catch (err) {
         res.status(400).json({ error: err.message })

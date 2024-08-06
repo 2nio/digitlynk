@@ -31,16 +31,23 @@ function Invoices() {
 
     useEffect(() => {
         data?.map(item => {
-            if (item.status === 'Overdue' && item.dueDate >= today) {
+            const equalAmount = item.payment.reduce((a, v) => a + v.amount, 0).toFixed(2) ===
+                (item.productList.reduce((a, v) => a = a + v.amount, 0) + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)
+
+            if (item.status !== 'Received' && equalAmount) {
+                editInvoice({ id: item._id, data: { status: 'Received' } }, fetchData)
+            }
+            else if (item.status === 'Overdue' && item.dueDate >= today || !equalAmount && item.dueDate >= today) {
                 editInvoice({ id: item._id, data: { status: 'Issued' } })
-            } else if (item.status !== 'Received' && item.dueDate < today) {
-                editInvoice({ id: item._id, data: { status: 'Overdue' } })
+            } else if (item.status !== 'Overdue' && !equalAmount && item.dueDate < today) {
+                editInvoice({ id: item._id, data: { status: 'Overdue' } }, fetchData)
             }
         })
     }, [data])
 
     useEffect(() => {
-        !popupIncome && setInvoiceInfo(null)
+        !popupIncome && setInvoiceInfo(null);
+        !popupIncome && fetchData();
     }, [popupIncome])
 
     return (
@@ -73,7 +80,8 @@ function Invoices() {
                                 backgroundColor: item.status === 'Received' ? '#06402B'
                                     : item.status === 'Overdue' && '#cc5a2a'
                             }}>{item.status}</span></p>
-                            <p className='Revenue_p_critAmount'>{item.productList.reduce((a, v) => a = a + v.amount, 0)}€</p>
+                            <p className='Revenue_p_critAmount'>{(item.productList.reduce((a, v) => a = a + v.amount, 0)
+                                + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
                             <div style={{ width: '20px' }}>
                                 <RiArrowDropDownLine className='Revenue_DropdownArrow'
                                     onClick={e => { setDropMenu(!dropmenu); setMenu(data.indexOf(item) + 1) }} size={'1.6rem'} />
@@ -87,8 +95,8 @@ function Invoices() {
                                             setDropMenu(false)
                                         }
                                     },
-                                    {
-                                        option: item.status === 'Received' ? 'Unreceive' : 'Receive',
+                                    item.status !== 'Received' && {
+                                        option: 'Receive',
                                         func: item.status === 'Issued' || item.status === 'Overdue' ?
                                             () => { setInvoiceInfo(item); setPopupIncome(true) }
                                             : () => {

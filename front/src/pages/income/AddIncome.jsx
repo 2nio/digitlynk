@@ -14,6 +14,7 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
     const [IBAN, setIBAN] = useState('')
     const [date, setDate] = useState('')
     const [amount, setAmount] = useState('')
+    const [maxAmount, setMaxAmount] = useState('')
     const [number, setNumber] = useState('')
     const [category, setCategory] = useState('')
     const [notes, setNotes] = useState('')
@@ -22,6 +23,7 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
     const { data: client, loading: loadingClient, fetchData: fetchClient } = useFetch('client')
     const { postData: postIncome, loading: loadingIncome } = usePost('income')
     const { postData: editIncome, loading: loadingEditIncome } = usePost('editIncome')
+    const { postData: editInvoice, loading: loadingEditInvoice } = usePost('editInvoice')
 
     const clearState = () => {
         setClientInput('reset')
@@ -41,7 +43,10 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
     useEffect(() => {
         fetchClient({ params: { id: invoiceInfo?.clientId } })
         setClientInput(invoiceInfo?.clientCompany)
-        setAmount(invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0))
+        setAmount((invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) +
+            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2))
+        setMaxAmount((invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) +
+            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2))
     }, [invoiceInfo])
 
     useEffect(() => {
@@ -89,15 +94,18 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>CATEGORY</p>
-                            <input placeholder='Category' defaultValue={category} className='CreateInv_input' onChange={e => setCategory(e.target.value)}></input>
+                            <input placeholder='Category' defaultValue={category} className='CreateInv_input'
+                                onChange={e => setCategory(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>DATE</p>
-                            <input placeholder='Date' required defaultValue={date} type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
+                            <input placeholder='Date' required defaultValue={date} type='date' className='CreateInv_input'
+                                onChange={e => setDate(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>AMOUNT</p>
-                            <input placeholder='Amount' required defaultValue={amount} className='CreateInv_input' onChange={e => setAmount(e.target.value)}></input>
+                            <input placeholder='Amount' type='number' required defaultValue={amount} min='0.1' max={maxAmount} className='CreateInv_input'
+                                onChange={e => setAmount(e.target.value)}></input>
                         </label>
                     </div>
                 </div>
@@ -112,14 +120,14 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
                                 editIncome({
                                     id: incomeInfo._id, data: {
                                         companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                                        invoice: invoiceInfo?.number, type, bank, IBAN, number, category, date, amount, notes
+                                        invoice: invoiceInfo?._id, type, bank, IBAN, number, category, date, amount, notes
                                     }
                                 }, () => { popupRef.current.close(); setPopup(false) })
                                 clearState()
-                            } : date && amount && client?._id ? () => {
+                            } : date && amount && client?._id && amount >= 0.1 && amount <= maxAmount ? () => {
                                 postIncome({
                                     companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                                    invoice: invoiceInfo?.number, type, bank, IBAN, number, category, date, amount, notes
+                                    invoice: invoiceInfo?._id, type, bank, IBAN, number, category, date, amount, notes
                                 }, () => { popupRef.current.close(); setPopup(false) })
                                 clearState()
                             } : !client?._id ? () => setClientInput('Please fill this') : null

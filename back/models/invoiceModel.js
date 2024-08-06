@@ -38,7 +38,8 @@ const invoiceSchema = new mongoose.Schema({
         qty: Number,
         price: Number,
         amount: Number
-    }]
+    }],
+    payment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Income' }]
 })
 
 const invoiceModel = mongoose.model('Invoices', invoiceSchema)

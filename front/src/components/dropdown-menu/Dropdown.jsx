@@ -22,7 +22,7 @@ function Dropdown({ displayMenu, parentState, menuOptions }) {
         <div ref={dropmenuRef} className='Dropdown_div' style={{ display: displayMenu && 'flex' }}>
             <ul>
                 {menuOptions.map(item =>
-                    <li key={item.option} onClick={e => item.func()}>{item.option}</li>
+                    item && <li key={item.option} onClick={e => item.func()}>{item.option}</li>
                 )}
             </ul>
         </div>

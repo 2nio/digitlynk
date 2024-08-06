@@ -23,7 +23,7 @@ const incomeSchema = new mongoose.Schema({
         default: 'Income'
     },
     invoice: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId, ref: 'Invoices'
     },
     notes: {
         type: String,
@@ -38,7 +38,7 @@ const incomeSchema = new mongoose.Schema({
         type: String,
     },
     amount: {
-        type: String,
+        type: Number,
         required: true
     }
 

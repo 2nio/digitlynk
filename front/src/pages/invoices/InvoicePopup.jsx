@@ -80,7 +80,8 @@ function InvoicePopup({ view, setView, invoice, client }) {
                             </div>
                             <div className='CreateInv_p_peviewTotal'>
                                 <h3>TOTAL</h3>
-                                <p>{invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) + invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) * 0.08}€</p>
+                                <p>{(invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) +
+                                    invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
                             </div>
                         </div>
                     </div>

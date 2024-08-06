@@ -45,7 +45,7 @@ function Income() {
                             <p className='Revenue_p_critInfo'>{item.type}</p>
                             <p className='Revenue_p_critInfo'>{item.date}</p>
                             <p className='Revenue_p_critInfo'>{item.clientCompany}</p>
-                            <p className='Revenue_p_critInfo'>{item.invoice || '-'}</p>
+                            <p className='Revenue_p_critInfo'>{item.invoice?.number || '-'}</p>
                             <p className='Revenue_p_critAmount'>{item.amount}€</p>
                             <div style={{ width: '20px' }}>
                                 <RiArrowDropDownLine className='Revenue_DropdownArrow'
