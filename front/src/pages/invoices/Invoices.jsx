@@ -37,9 +37,12 @@ function Invoices() {
             if (item.status !== 'Received' && equalAmount) {
                 editInvoice({ id: item._id, data: { status: 'Received' } }, fetchData)
             }
-            else if (item.status === 'Overdue' && item.dueDate >= today || !equalAmount && item.dueDate >= today) {
+            else if (item.status !== 'Partially' && item.payment.length && !equalAmount) {
+                editInvoice({ id: item._id, data: { status: 'Partially' } }, fetchData)
+            }
+            else if (item.status === 'Overdue' && item.dueDate >= today || item.status !== 'Issued' && !equalAmount && item.dueDate >= today) {
                 editInvoice({ id: item._id, data: { status: 'Issued' } })
-            } else if (item.status !== 'Overdue' && !equalAmount && item.dueDate < today) {
+            } else if (item.status !== 'Overdue' && !item.payment.length && item.dueDate < today) {
                 editInvoice({ id: item._id, data: { status: 'Overdue' } }, fetchData)
             }
         })
@@ -78,7 +81,7 @@ function Invoices() {
                             <p className='Revenue_p_critInfo'>{item.clientCompany}</p>
                             <p className='Revenue_p_critInfo'><span style={{
                                 backgroundColor: item.status === 'Received' ? '#06402B'
-                                    : item.status === 'Overdue' && '#cc5a2a'
+                                    : item.status === 'Overdue' ? '#cc5a2a' : item.status === 'Partially' && '#ff7600'
                             }}>{item.status}</span></p>
                             <p className='Revenue_p_critAmount'>{(item.productList.reduce((a, v) => a = a + v.amount, 0)
                                 + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
@@ -97,18 +100,8 @@ function Invoices() {
                                     },
                                     item.status !== 'Received' && {
                                         option: 'Receive',
-                                        func: item.status === 'Issued' || item.status === 'Overdue' ?
-                                            () => { setInvoiceInfo(item); setPopupIncome(true) }
-                                            : () => {
-                                                editInvoice({
-                                                    id: item._id,
-                                                    data: {
-                                                        status: item.status === 'Received' && item.dueDate >= today ? 'Issued' : 'Overdue'
-                                                    }
-                                                },
-                                                    fetchData)
-                                                setDropMenu(false)
-                                            }
+                                        func: () => { setInvoiceInfo(item); setPopupIncome(true) }
+
                                     },
                                     {
                                         option: 'Edit',

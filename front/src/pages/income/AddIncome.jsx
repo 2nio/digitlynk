@@ -43,10 +43,12 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
     useEffect(() => {
         fetchClient({ params: { id: invoiceInfo?.clientId } })
         setClientInput(invoiceInfo?.clientCompany)
-        setAmount((invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) +
-            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2))
-        setMaxAmount((invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) +
-            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2))
+        setAmount(((invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) +
+            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2) -
+            invoiceInfo?.payment.reduce((a, v) => a + v.amount, 0).toFixed(2)).toFixed(2))
+        setMaxAmount(((invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) +
+            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2) -
+            invoiceInfo?.payment.reduce((a, v) => a + v.amount, 0).toFixed(2)).toFixed(2))
     }, [invoiceInfo])
 
     useEffect(() => {
@@ -56,11 +58,26 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
         setDate(incomeInfo?.date); setNumber(incomeInfo?.number); setNotes(incomeInfo?.notes); setType(incomeInfo?.type)
     }, [incomeInfo])
 
-
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '16px' }}>{incomeInfo ? 'Edit income' : 'Add income'}</h1>
-            <form id='CreateInv_div_form'>
+            <form id='CreateInv_div_form' onSubmit={
+                incomeInfo && date && amount && client?._id ? () => {
+                    editIncome({
+                        id: incomeInfo._id, data: {
+                            companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
+                            invoice: invoiceInfo?._id, type, bank, IBAN, number, category, date, amount, notes
+                        }
+                    }, () => { popupRef.current.close(); setPopup(false) })
+                    clearState()
+                } : date && amount && client?._id && amount >= 0.1 && amount <= maxAmount ? () => {
+                    postIncome({
+                        companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
+                        invoice: invoiceInfo?._id, type, bank, IBAN, number, category, date, amount, notes
+                    }, () => { popupRef.current.close(); setPopup(false) })
+                    clearState()
+                } : !client?._id ? () => setClientInput('Please fill this') : null
+            }>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
                         <AddClient contactType={contactType} choose={choose}
@@ -104,7 +121,7 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>AMOUNT</p>
-                            <input placeholder='Amount' type='number' required defaultValue={amount} min='0.1' max={maxAmount} className='CreateInv_input'
+                            <input placeholder='Amount' type='number' required defaultValue={amount} min='.1' step={'any'} max={maxAmount} className='CreateInv_input'
                                 onChange={e => setAmount(e.target.value)}></input>
                         </label>
                     </div>
@@ -115,23 +132,7 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
                         <textarea onChange={e => setNotes(e.target.value)} defaultValue={notes} placeholder='Notes' />
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
-                        <button className='CreateInv_button_bottom' type='submit'
-                            onClick={incomeInfo && date && amount && client?._id ? () => {
-                                editIncome({
-                                    id: incomeInfo._id, data: {
-                                        companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                                        invoice: invoiceInfo?._id, type, bank, IBAN, number, category, date, amount, notes
-                                    }
-                                }, () => { popupRef.current.close(); setPopup(false) })
-                                clearState()
-                            } : date && amount && client?._id && amount >= 0.1 && amount <= maxAmount ? () => {
-                                postIncome({
-                                    companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                                    invoice: invoiceInfo?._id, type, bank, IBAN, number, category, date, amount, notes
-                                }, () => { popupRef.current.close(); setPopup(false) })
-                                clearState()
-                            } : !client?._id ? () => setClientInput('Please fill this') : null
-                            }>Save</button>
+                        <button className='CreateInv_button_bottom' type='submit'>Save</button>
                         <button type='button' className='CreateInv_button_bottom'
                             onClick={e => { popupRef.current.close(); setPopup(false); clearState() }}>Cancel</button>
                     </div>
