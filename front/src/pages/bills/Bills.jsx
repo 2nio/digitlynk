@@ -29,10 +29,18 @@ function Bills() {
 
     useEffect(() => {
         bills?.map(item => {
-            if (item.status === 'Overdue' && item.dueDate >= today) {
+            const equalAmount = item.payment.reduce((a, v) => a + v.amount, 0) === item.amount
+
+            if (item.status !== 'Paid' && equalAmount) {
+                editBill({ id: item._id, data: { status: 'Paid' } }, fetchBills)
+            }
+            else if (item.status !== 'Partially' && item.payment.length && !equalAmount) {
+                editBill({ id: item._id, data: { status: 'Partially' } }, fetchBills)
+            }
+            else if (item.status === 'Overdue' && item.dueDate >= today || item.status !== 'Issued' && !equalAmount && item.dueDate >= today) {
                 editBill({ id: item._id, data: { status: 'Issued' } })
-            } else if (item.status !== 'Paid' && item.dueDate < today) {
-                editBill({ id: item._id, data: { status: 'Overdue' } })
+            } else if (item.status !== 'Overdue' && !item.payment.length && item.dueDate < today) {
+                editBill({ id: item._id, data: { status: 'Overdue' } }, fetchBills)
             }
         })
     }, [bills])
@@ -74,7 +82,7 @@ function Bills() {
                             <p className='Revenue_p_critInfo'>{item.clientCompany}</p>
                             <p className='Revenue_p_critInfo'><span style={{
                                 backgroundColor: item.status === 'Paid' ? '#06402B'
-                                    : item.status === 'Overdue' && '#cc5a2a'
+                                    : item.status === 'Overdue' ? '#cc5a2a' : item.status === 'Partially' && '#ff7600'
                             }}>{item.status}</span></p>
                             <p className='Revenue_p_critAmount'>{item.amount}€</p>
                             <div style={{ width: '20px' }}>
@@ -88,20 +96,10 @@ function Bills() {
                                             setBillInfo(item)
                                         }
                                     },
-                                    {
-                                        option: item.status === 'Paid' ? 'Unpay' : 'Pay',
-                                        func: item.status === 'Issued' || item.status === 'Overdue' ?
-                                            () => { setBillInfo(item); setPopupPayment(true) }
-                                            : () => {
-                                                editBill({
-                                                    id: item._id,
-                                                    data: {
-                                                        status: item.status === 'Paid' && item.dueDate >= today ? 'Issued' : 'Overdue'
-                                                    }
-                                                },
-                                                    fetchBills)
-                                                setDropMenu(false)
-                                            }
+                                    item.status !== 'Paid' && {
+                                        option: 'Pay',
+                                        func: () => { setBillInfo(item); setPopupPayment(true) }
+
                                     },
                                     {
                                         option: 'Delete',

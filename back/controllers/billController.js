@@ -19,7 +19,7 @@ const getAllBills = async (req, res) => {
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
         const User = await userModel.findById(Token.id)
-        const Bills = await billModel.find({ companyId: User.currentCompany })
+        const Bills = await billModel.find({ companyId: User.currentCompany }).populate({ path: 'payment', select: ['amount'] })
         res.status(200).json(Bills)
     } catch (err) {
         res.status(400).json({ error: err.message })

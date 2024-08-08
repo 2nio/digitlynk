@@ -14,6 +14,7 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
     const [IBAN, setIBAN] = useState('')
     const [date, setDate] = useState('')
     const [amount, setAmount] = useState('')
+    const [maxAmount, setMaxAmount] = useState('')
     const [number, setNumber] = useState('')
     const [category, setCategory] = useState('')
     const [notes, setNotes] = useState('')
@@ -41,7 +42,8 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
     useEffect(() => {
         fetchClient({ params: { id: billInfo?.clientId } })
         setClientInput(billInfo?.clientCompany)
-        setAmount(billInfo?.amount)
+        setAmount((billInfo?.amount - billInfo?.payment?.reduce((a, v) => a + v.amount, 0)).toFixed(2))
+        setMaxAmount((billInfo?.amount - billInfo?.payment?.reduce((a, v) => a + v.amount, 0)).toFixed(2))
     }, [billInfo])
 
     useEffect(() => {
@@ -55,7 +57,23 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '16px' }}>{paymentInfo ? 'Edit payment' : 'Add payment'}</h1>
-            <form id='CreateInv_div_form2'>
+            <form id='CreateInv_div_form2' onSubmit={
+                paymentInfo && date && amount && client._id ? () => {
+                    editPayment({
+                        id: paymentInfo._id, data: {
+                            companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
+                            bill: billInfo?._id, type, bank, IBAN, number, category, date, amount, notes
+                        }
+                    }, () => { popupRef.current.close(); setPopup(false) })
+                    clearState()
+                } : date && amount && client?._id ? () => {
+                    postPayment({
+                        companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
+                        bill: billInfo?._id, type, bank, IBAN, number, category, date, amount, notes
+                    }, () => { popupRef.current.close(); setPopup(false) })
+                    clearState()
+                } : !client?._id ? () => setClientInput('Please fill this') : null
+            }>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
                         <AddClient contactType={contactType} choose={choose}
@@ -97,7 +115,8 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>AMOUNT</p>
-                            <input placeholder='Amount' required defaultValue={amount} className='CreateInv_input' onChange={e => setAmount(e.target.value)}></input>
+                            <input placeholder='Amount' required defaultValue={amount} type='number' min='.1' step={'any'} max={maxAmount}
+                                className='CreateInv_input' onChange={e => setAmount(e.target.value)}></input>
                         </label>
                     </div>
                 </div>
@@ -107,23 +126,7 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
                         <textarea onChange={e => setNotes(e.target.value)} defaultValue={notes} placeholder='Notes' />
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
-                        <button className='CreateInv_button_bottom' type='submit'
-                            onClick={paymentInfo && date && amount && client._id ? () => {
-                                editPayment({
-                                    id: paymentInfo._id, data: {
-                                        companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                                        bill: billInfo?.number, type, bank, IBAN, number, category, date, amount, notes
-                                    }
-                                }, () => { popupRef.current.close(); setPopup(false) })
-                                clearState()
-                            } : date && amount && client?._id ? () => {
-                                postPayment({
-                                    companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                                    bill: billInfo?.number, type, bank, IBAN, number, category, date, amount, notes
-                                }, () => { popupRef.current.close(); setPopup(false) })
-                                clearState()
-                            } : !client?._id ? () => setClientInput('Please fill this') : null
-                            }>Save</button>
+                        <button className='CreateInv_button_bottom' type='submit'>Save</button>
                         <button type='button' className='CreateInv_button_bottom'
                             onClick={e => { popupRef.current.close(); setPopup(false); clearState() }}>Cancel</button>
                     </div>

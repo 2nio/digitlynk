@@ -121,8 +121,8 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>AMOUNT</p>
-                            <input placeholder='Amount' type='number' required defaultValue={amount} min='.1' step={'any'} max={maxAmount} className='CreateInv_input'
-                                onChange={e => setAmount(e.target.value)}></input>
+                            <input placeholder='Amount' type='number' required defaultValue={amount} min='.1' step={'any'} max={maxAmount}
+                                className='CreateInv_input' onChange={e => setAmount(e.target.value)}></input>
                         </label>
                     </div>
                 </div>

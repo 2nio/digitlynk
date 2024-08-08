@@ -22,9 +22,6 @@ const paymentSchema = new mongoose.Schema({
         required: true,
         default: 'Payment'
     },
-    bill: {
-        type: String,
-    },
     notes: {
         type: String,
     },
@@ -38,12 +35,13 @@ const paymentSchema = new mongoose.Schema({
         type: String,
     },
     amount: {
-        type: String,
+        type: Number,
         required: true
+    },
+    bill: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'Bills'
     }
-
-
 })
 
-const paymentModel = mongoose.model('payment', paymentSchema)
+const paymentModel = mongoose.model('Payment', paymentSchema)
 module.exports = paymentModel

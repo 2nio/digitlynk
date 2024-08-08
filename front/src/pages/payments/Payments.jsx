@@ -22,7 +22,7 @@ function Payments() {
         <div className='All_div_main'>
             <Menu />
 
-            <AddPayment contactType={'provider'} paymentInfo={paymentInfo} popupPayment={popupPayment}
+            <AddPayment choose={paymentInfo?.bill} contactType={'provider'} paymentInfo={paymentInfo} popupPayment={popupPayment}
                 setPopup={data => { setPopupPayment(data); setPaymentInfo(false); fetchPayments() }} />
 
             {loadingPayments ? <div>Loading...</div>
@@ -45,7 +45,7 @@ function Payments() {
                             <p className='Revenue_p_critInfo'>{item.type}</p>
                             <p className='Revenue_p_critInfo'>{item.date}</p>
                             <p className='Revenue_p_critInfo'>{item.clientCompany}</p>
-                            <p className='Revenue_p_critInfo'>{item.bill || '-'}</p>
+                            <p className='Revenue_p_critInfo'>{item.bill?.number || '-'}</p>
                             <p className='Revenue_p_critAmount'>{item.amount}€</p>
                             <div style={{ width: '20px' }}>
                                 <RiArrowDropDownLine className='Revenue_DropdownArrow'

@@ -26,7 +26,7 @@ const billSchema = new mongoose.Schema({
         required: true
     },
     amount: {
-        type: String,
+        type: Number,
         required: true
     },
     note: {
@@ -35,7 +35,9 @@ const billSchema = new mongoose.Schema({
     status: {
         type: String,
         default: 'Issued'
-    }
+    },
+    payment: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Payment' }]
+
 })
 
 const billModel = mongoose.model('Bills', billSchema)
