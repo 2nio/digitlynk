@@ -10,11 +10,13 @@ const businessSchema = new mongoose.Schema({
         required: true
     },
     owner: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId, ref: 'Users',
         required: true
     },
     users: [{
-        id: String,
+        id: {
+            type: mongoose.Schema.Types.ObjectId, ref: 'Users'
+        },
         role: String
     }],
     bank: String,
@@ -22,11 +24,9 @@ const businessSchema = new mongoose.Schema({
     phone: String,
     email: String,
     website: String,
-    invoices: [String],
-    users: [String],
     clients: [{
         contactType: String,
-        fullName: String,
+        fullname: String,
         company: String,
         bank: String,
         IBAN: String,

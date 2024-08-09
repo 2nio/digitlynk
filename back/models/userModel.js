@@ -17,12 +17,11 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     companies: [{
-        id: String,
-        name: String,
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'Businesses' },
         role: String
     }],
     currentCompany: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId, ref: 'Businesses'
     }
 })
 

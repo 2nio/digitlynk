@@ -10,4 +10,9 @@ export const closePopup = (func, popupRef) => {
             func()
         }
     })
+    popupRef.current.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            func()
+        }
+    })
 }

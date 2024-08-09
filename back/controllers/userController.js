@@ -53,7 +53,7 @@ const getUser = async (req, res) => {
     const accessToken = req.cookies.accessToken || authHeader.split(' ')[1]
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
-        const User = await userModel.findById(Token.id)
+        const User = await userModel.findById(Token.id).populate({ path: 'companies.id', select: ['company'] })
         res.status(200).json(User)
     } catch (error) {
         res.status(400).json({ error: error.message })

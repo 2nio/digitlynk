@@ -33,7 +33,7 @@ function Income() {
                         <p className='Revenue_p_crit'>NO</p>
                         <p className='Revenue_p_crit'>TYPE</p>
                         <p className='Revenue_p_crit'>DATE</p>
-                        <p className='Revenue_p_crit'>TO</p>
+                        <p className='Revenue_p_crit'>FROM</p>
                         <p className='Revenue_p_crit'>INVOICE</p>
                         <p className='Revenue_p_crit'>AMOUNT</p>
                         <div style={{ width: '20px' }}><IoAdd onClick={e => setPopupIncome(true)} size={'1.4rem'} /></div>

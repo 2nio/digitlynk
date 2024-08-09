@@ -22,7 +22,7 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
 
     const clearState = () => {
         setClientInput('reset')
-        document.getElementById('CreateInv_div_form').reset()
+        document.getElementById('AddBill_div_form').reset()
         setDate(''); setAmount(''); setNumber(''); setNote(''); setDueDate('')
     }
 
@@ -44,7 +44,7 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '40px' }}>{billInfo ? 'Edit bill' : 'Add bill'}</h1>
-            <form id='CreateInv_div_form'>
+            <form id='AddBill_div_form'>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
                         <AddClient contactType={contactType} choose={choose} clientCompany={clientInput}

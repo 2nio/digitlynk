@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 require('dotenv').config()
 //Controllers
 const { Signup, Login, getUser, Signout, setCurrentCompany, findUser } = require('./controllers/userController')
-const { createBusiness, getBusiness, createClient, getAllClients, editBusiness, getClient } = require('./controllers/businessController')
+const { createBusiness, getBusiness, createClient, getAllClients, editBusiness, getClient, editClient, deleteClient } = require('./controllers/businessController')
 const { createInvoice, getAllInvoices, getInvoice, editInvoice, deleteInvoice } = require('./controllers/invoiceController')
 const { createIncome, getAllIncome, deleteIncome, getIncome, editIncome } = require('./controllers/incomeController')
 const { createBill, getAllBills, deleteBill, getBill, editBill } = require('./controllers/billController');
@@ -57,6 +57,8 @@ app.post('/client', createClient)
 app.get('/clients', getAllClients)
 app.get('/client', getClient)
 app.post('/editBusiness', editBusiness)
+app.post('/editClient', editClient)
+app.post('/deleteClient', deleteClient)
 
 //Invoice
 app.post('/invoice', createInvoice)

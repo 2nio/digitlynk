@@ -1,8 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { useFetch } from '../../hooks/useFetch';
 import { closePopup } from '../../functions/closePopup';
-import Companies from '../../components/menu/overview/Companies';
-
 
 function InvoicePopup({ view, setView, invoice, client }) {
 
@@ -37,7 +35,7 @@ function InvoicePopup({ view, setView, invoice, client }) {
                         {client &&
                             <div className='CreateInv_div_previewCompany'>
                                 <h4>BILLED TO</h4>
-                                <p>{client.company}</p>
+                                <p>{client.company || client.fullname}</p>
                                 <p>{client.address}</p>
                                 <p>{client.email}</p>
                                 <p>{client.phone}</p>

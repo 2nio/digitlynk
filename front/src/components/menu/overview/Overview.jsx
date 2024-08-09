@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 import './Overview.css'
 import Users from './Users';
-import Companies from './Companies';
 
 import { IoMdBusiness } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
@@ -11,6 +10,7 @@ import { MdEdit } from "react-icons/md";
 import { useFetch } from '../../../hooks/useFetch';
 import { usePost } from '../../../hooks/usePost';
 import { closePopup } from '../../../functions/closePopup';
+import Clients from './Clients';
 
 
 function Account({ popupState, setPopup }) {
@@ -32,10 +32,6 @@ function Account({ popupState, setPopup }) {
     const [email, setEmail] = useState()
     const [website, setWebsite] = useState()
 
-    const [users, setUsers] = useState([])
-    const [clients, setClients] = useState([])
-    const [providers, setProviders] = useState([])
-
     const clearState = () => {
         setCompany(); setAddress(); setBank(); setIBAN(); setPhone(); setEmail(); setWebsite()
     }
@@ -47,6 +43,7 @@ function Account({ popupState, setPopup }) {
     useEffect(() => {
         closePopup(() => {
             fetchData()
+            clearState()
             popupRef.current.close()
             setPopup(false)
             setMenu('Account')
@@ -64,7 +61,7 @@ function Account({ popupState, setPopup }) {
     return (
         <dialog ref={popupRef} className='Account_dialog_popup'>
             {loading || loadingUser || loadingPostReq ? <div>Loading...</div> :
-            data &&
+                data &&
                 <div style={{ display: menu === 'Account' || menu === 'Edit' ? 'block' : 'none' }}>
                     <h1 style={{ marginBottom: '32px', fontSize: '32px' }}>Overview</h1>
                     <div className='Account_div_main'>
@@ -133,8 +130,8 @@ function Account({ popupState, setPopup }) {
                     </div>
                 </div>
             }
-            <Companies setMenuState={value => setMenu(value)} menuState={menu} />
             <Users setMenuState={value => setMenu(value)} menuState={menu} />
+            <Clients setMenuState={value => setMenu(value)} menuState={menu} />
 
         </dialog>
     )

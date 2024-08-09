@@ -16,7 +16,7 @@ function MyAccount() {
     const [company, setCompany] = useState()
     const [address, setAddress] = useState()
 
-    const { data, loading } = useFetch('user')
+    const { data, loading, fetchData } = useFetch('user')
     const signout = useSignout('signout')
     const { postData: createCompany } = usePost('business')
     const { postData: setCurrentCompany } = usePost('company')
@@ -39,8 +39,8 @@ function MyAccount() {
                 <div className={createAccount ? 'MyAcc_div_createAcc' : 'none'}>
                     <input placeholder='Company Name' onChange={e => setCompany(e.target.value)} />
                     <input placeholder='Company Address' onChange={e => setAddress(e.target.value)} />
-                    <button onClick={e => createCompany({ company, address })}>Create company</button>
-                    <p onClick={e => setCreateAccount(false)}>CANCEL</p>
+                    <button onClick={e => createCompany({ company, address }, () => { setCreateAccount(false); fetchData() })}>Create company</button>
+                    <p onClick={e => { setCreateAccount(false); fetchData() }}>CANCEL</p>
 
                 </div>
                 <div className={createAccount ? 'none' : 'MyAcc_div_companies'}>
@@ -49,7 +49,7 @@ function MyAccount() {
                         <button onClick={e => {
                             setCurrentCompany({ companyId: item.id })
                             navigate('/dashboard')
-                        }}>{item.name}</button>
+                        }}>{item.id?.company}</button>
                     )}
                 </div>
                 <span className={createAccount ? 'none' : 'MyAcc_span_separator'}></span>

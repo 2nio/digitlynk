@@ -26,7 +26,7 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
 
     const clearState = () => {
         setClientInput('reset')
-        document.getElementById('CreateInv_div_form2').reset()
+        document.getElementById('AddPayment_div_form').reset()
         setType('Payment'); setBank(''); setIBAN(''); setDate(''); setAmount(''); setNumber(''); setCategory(''); setNotes('')
     }
 
@@ -57,7 +57,7 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '16px' }}>{paymentInfo ? 'Edit payment' : 'Add payment'}</h1>
-            <form id='CreateInv_div_form2' onSubmit={
+            <form id='AddPayment_div_form' onSubmit={
                 paymentInfo && date && amount && client._id ? () => {
                     editPayment({
                         id: paymentInfo._id, data: {

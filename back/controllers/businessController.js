@@ -11,7 +11,7 @@ const createBusiness = async (req, res) => {
     const accessToken = req.cookies.accessToken || authHeader.split(' ')[1]
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
-        const Business = await businessModel.create({ company, address, owner: Token.id })
+        const Business = await businessModel.create({ company, address, owner: Token.id, users: { id: Token.id, role: 'owner' } })
         const User = await userModel.findByIdAndUpdate(Token.id, { $push: { companies: { id: Business._id, name: Business.company, role: 'owner' } } })
 
         res.status(200).json('Business created')
@@ -26,7 +26,7 @@ const getBusiness = async (req, res) => {
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
         const User = await userModel.findById(Token.id)
-        const Business = await businessModel.findById(User.currentCompany)
+        const Business = await businessModel.findById(User.currentCompany).populate({ path: 'users.id', select: ['name', 'email'] })
 
         res.status(200).json(Business)
     } catch (err) {
@@ -41,7 +41,6 @@ const editBusiness = async (req, res) => {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
         const User = await userModel.findById(Token.id)
         const Business = await businessModel.findByIdAndUpdate(User.currentCompany, req.body)
-        await userModel.findOneAndUpdate({ 'companies.id': User.currentCompany }, { $set: { 'companies.$.name': req.body.company } })
 
         res.status(200).json(Business)
     } catch (err) {
@@ -96,4 +95,39 @@ const getClient = async (req, res) => {
     }
 }
 
-module.exports = { getBusiness, createBusiness, createClient, getAllClients, editBusiness, getClient }
+const editClient = async (req, res) => {
+    const { id, data } = req.body
+
+    try {
+        await businessModel.findOneAndUpdate({ 'clients._id': id }, {
+            '$set': {
+                'clients.$.fullname': data.fullname,
+                'clients.$.company': data.company,
+                'clients.$.bank': data.bank,
+                'clients.$.IBAN': data.IBAN,
+                'clients.$.address': data.address,
+                'clients.$.phone': data.phone,
+                'clients.$.email': data.email,
+                'clients.$.website': data.website,
+                'clients.$.notes': data.notes
+
+            }
+        })
+
+        res.status(200).json('Client updated')
+    } catch (err) {
+        res.status(400).json({ error: err.message })
+    }
+}
+
+const deleteClient = async (req, res) => {
+    const { id } = req.body
+    try {
+        await businessModel.findOneAndUpdate({ 'clients._id': id }, { $pull: { clients: { _id: id } } })
+        res.status(200).json('Client deleted')
+    } catch (err) {
+        res.status(400).json({ error: err.message })
+    }
+}
+
+module.exports = { getBusiness, createBusiness, createClient, getAllClients, editBusiness, getClient, editClient, deleteClient }

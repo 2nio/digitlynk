@@ -27,7 +27,7 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
 
     const clearState = () => {
         setClientInput('reset')
-        document.getElementById('CreateInv_div_form').reset()
+        document.getElementById('AddIncome_div_form').reset()
         setType('Income'); setBank(''); setIBAN(''); setDate(''); setAmount(''); setNumber(''); setCategory(''); setNotes('')
     }
 
@@ -61,7 +61,7 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '16px' }}>{incomeInfo ? 'Edit income' : 'Add income'}</h1>
-            <form id='CreateInv_div_form' onSubmit={
+            <form id='AddIncome_div_form' onSubmit={
                 incomeInfo && date && amount && client?._id ? () => {
                     editIncome({
                         id: incomeInfo._id, data: {

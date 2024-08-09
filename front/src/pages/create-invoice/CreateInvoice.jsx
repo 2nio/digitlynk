@@ -101,7 +101,7 @@ function CreateInvoice() {
                     <div className={preview ? 'none' : 'Revenue_div_second'}>
                         <h1 style={{ marginBottom: '40px' }}>{invoiceId ? 'Edit invoice' : 'Create invoice'}</h1>
                         <div className='CreateInv_div_info'>
-                            <AddClient left={'5.2%'} contactType={'client'} clientCompany={invoice?.clientCompany} sendClient={sendClient} />
+                            <AddClient formId={'CreateInv'} left={'5.2%'} contactType={'client'} clientCompany={invoice?.clientCompany} sendClient={sendClient} />
                             <label className='CreateInv_label'>
                                 <p className='CreateInv_p_label'>DATE</p>
                                 <input defaultValue={invoice?.date} placeholder='Date' type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
@@ -169,9 +169,17 @@ function CreateInvoice() {
                             <div className='CreateInv_div_bottomButtons'>
                                 <button className='CreateInv_button_secondary' onClick={e => setPreview(true)}>Preview</button>
                                 <button className='CreateInv_button_bottom' onClick={invoiceId ?
-                                    () => editInvoice({ id: invoiceId, data: { clientId, clientCompany: client?.company, date, dueDate, number, note, productList } },
+                                    () => editInvoice({
+                                        id: invoiceId, data: {
+                                            clientId, clientCompany: client?.company || client?.fullname,
+                                            date, dueDate, number, note, productList
+                                        }
+                                    },
                                         () => navigate('/invoices')) :
-                                    () => postData({ companyId: business._id, clientId, clientCompany: client?.company, date, dueDate, number, note, productList },
+                                    () => postData({
+                                        companyId: business._id, clientId, clientCompany: client?.company || client?.fullname,
+                                        date, dueDate, number, note, productList
+                                    },
                                         () => navigate('/invoices'))
                                 }>Save</button>
                             </div>
@@ -198,7 +206,7 @@ function CreateInvoice() {
                             </div>
                             <div className='CreateInv_div_previewCompany'>
                                 <h4>BILLED TO</h4>
-                                <p>{client?.company}</p>
+                                <p>{client?.company || client?.fullname}</p>
                                 <p>{client?.address}</p>
                                 <p>{client?.email}</p>
                                 <p>{client?.phone}</p>
