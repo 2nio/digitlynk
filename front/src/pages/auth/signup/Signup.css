@@ -1,45 +1,87 @@
 .Signup_div_main {
-    background-color: rgb(24, 24, 24);
-    width: fit-content;
-    height: fit-content;
-    border-radius: 16px;
-    margin: 140px auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.Signup_div_logo {
+    font-size: 18px;
+    font-weight: 500;
+    color: #ffffffdc;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin: 0 8px 0px 24px;
+}
+
+.Signup_div_left {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6)), url('../../../assets/backgr.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    border-bottom-right-radius: 48px;
+    border-top-right-radius: 48px;
+    width: 55%;
+}
+
+.Signup_div_signup {
+    width: 45%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 80px;
     flex-direction: column;
 }
-.Signup_div_main input {
+
+.Signup_div_signup input {
     outline: none;
     border: none;
     background-color: rgb(18, 18, 18);
-    width: 320px;
-    height: 40px;
-    border-radius: 20px;
+    width: 380px;
+    height: 28px;
+    border-radius: 8px;
     padding: 12px;
     font-size: 14px;
     font-weight: 500;
     margin-top: 16px;
 }
-.Signup_div_main button {
-    width: 300px;
-    height: 56px;
-    background-color: #02b875c4;
+
+.Signup_div_signup button {
+    width: 400px;
+    height: 46px;
+    background-color: #fff;
+    color: black;
     border: none;
     margin-top: 24px;
-    border-radius: 28px;
-    font-size: 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.Signup_p_title {
+    margin: 16px;
+    font-size: 32px;
     font-weight: 500;
 }
-.Signup_div_main a {
+
+.Signup_p_subtitle {
+    color: #ffffffb4;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.Signup_div_signup a {
     text-decoration: none;
     margin-top: 16px;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 500;
     color: #ffffffb4;
 }
-.Signup_div_main a:hover {
+
+.Signup_div_signup a:hover {
     color: #fff;
 }
 
