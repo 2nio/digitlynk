@@ -10,8 +10,8 @@ function Client({ contactType, showDialog, closeDialog, client, formId }) {
     const { postData: deleteClient } = usePost('deleteClient')
 
     const popupRef = useRef()
-    const [fullname, setFullname] = useState("")
-    const [company, setCompany] = useState("")
+    const [name, setName] = useState("")
+    const [CIN, setCIN] = useState("")
     const [bank, setBank] = useState("")
     const [IBAN, setIBAN] = useState("")
     const [address, setAddress] = useState("")
@@ -21,13 +21,12 @@ function Client({ contactType, showDialog, closeDialog, client, formId }) {
     const [notes, setNotes] = useState("")
 
     const clearState = () => {
-        document.getElementById(`AddClient_div_form`).reset()
-        setFullname(); setCompany(); setBank(); setIBAN(); setAddress(); setPhone(); setEmail(); setWebsite(); setNotes()
+        document.getElementById(`${formId}_form`).reset()
+        setName(); setCIN(); setBank(); setIBAN(); setAddress(); setPhone(); setEmail(); setWebsite(); setNotes()
     }
 
     useEffect(() => {
         closePopup(() => {
-            console.log(formId)
             popupRef.current.close()
             clearState()
             closeDialog(false)
@@ -40,36 +39,31 @@ function Client({ contactType, showDialog, closeDialog, client, formId }) {
 
     useEffect(() => {
         client?.id && deleteClient({ id: client?.id })
-        setFullname(client?.fullname); setCompany(client?.company); setBank(client?.bank); setIBAN(client?.IBAN);
-        setAddress(client?.address); setPhone(client?.phone); setEmail(client?.email); setWebsite(client?.website); setNotes(client?.notes)
+        setName(client?.name); setCIN(client?.CIN); setBank(client?.bank); setIBAN(client?.IBAN); setAddress(client?.address);
+        setPhone(client?.phone); setEmail(client?.email); setWebsite(client?.website); setNotes(client?.notes)
     }, [client])
 
     const createClient = (e) => {
+        clearState()
         closeDialog(false)
         popupRef.current.close()
     }
 
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup'>
-            <h1 style={{ marginBottom: '16px' }}>Add client</h1>
-            <form id='AddClient_div_form' onSubmit={
-                client ?
-                    () => editClient({
-                        id: client?._id, data: {
-                            contactType, fullname, company, bank, IBAN, address, phone, email, website, notes
-                        }
-                    }, createClient)
-                    : () => postClient({ contactType, fullname, company, bank, IBAN, address, phone, email, website, notes }, createClient)
+            <h1 style={{ marginBottom: '16px' }}>Add {contactType === 'client' ? 'client' : 'provider'}</h1>
+            <form id={`${formId}_form`} onSubmit={
+                null
             }>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
                         <label className='CreateInv_label'>
-                            <p className='CreateInv_p_label'>FULL NAME</p>
-                            <input placeholder='Name' defaultValue={fullname} className='CreateInv_input' onChange={e => setFullname(e.target.value)}></input>
+                            <p className='CreateInv_p_label'>NAME</p>
+                            <input placeholder='Name' defaultValue={name} className='CreateInv_input' onChange={e => setName(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
-                            <p className='CreateInv_p_label'>COMPANY</p>
-                            <input placeholder='Company' defaultValue={company} className='CreateInv_input' onChange={e => setCompany(e.target.value)}></input>
+                            <p className='CreateInv_p_label'>CIN</p>
+                            <input placeholder='Company' defaultValue={CIN} className='CreateInv_input' onChange={e => setCIN(e.target.value)}></input>
                         </label>
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>BANK</p>
@@ -105,7 +99,17 @@ function Client({ contactType, showDialog, closeDialog, client, formId }) {
                         <textarea placeholder='Notes' />
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
-                        <button className='CreateInv_button_bottom' type='submit'>Save</button>
+                        <button className='CreateInv_button_bottom' type='button' onClick={
+                            client ?
+                                () => editClient({
+                                    id: client?._id, data: {
+                                        contactType, name, CIN, bank, IBAN, address, phone, email, website, notes
+                                    }
+                                }, createClient)
+                                : () => {
+                                    postClient({ contactType, name, CIN, bank, IBAN, address, phone, email, website, notes }, createClient);
+                                }
+                        }>Save</button>
                         <button className='CreateInv_button_secondary' type='button'
                             onClick={e => { createClient(); clearState() }}>Cancel</button>
                     </div>

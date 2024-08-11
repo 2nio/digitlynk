@@ -9,6 +9,7 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
 
     const popupRef = useRef()
     const [clientInput, setClientInput] = useState('')
+    const [clientId, setClientId] = useState()
     const [date, setDate] = useState('')
     const [dueDate, setDueDate] = useState('')
     const [amount, setAmount] = useState('')
@@ -36,8 +37,8 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
     }, [])
 
     useEffect(() => {
-        fetchClient({ params: { id: billInfo?.clientId } })
-        setClientInput(billInfo?.clientCompany)
+        setClientId(billInfo?.clientId?._id)
+        setClientInput(billInfo?.clientId?.name)
         setAmount(billInfo?.amount); setDate(billInfo?.date); setDueDate(billInfo?.dueDate); setNumber(billInfo?.number); setNote(billInfo?.note)
     }, [billInfo])
 
@@ -48,8 +49,7 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
                         <AddClient contactType={contactType} choose={choose} clientCompany={clientInput}
-                            sendClient={data => fetchClient({ params: { id: data } })} />
-                        <input required value={client?._id} style={{ display: 'none' }} />
+                            sendClient={data => setClientId(data)} />
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>DATE</p>
                             <input placeholder='Date' required defaultValue={date} type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
@@ -77,22 +77,22 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
                         <button className='CreateInv_button_bottom' type='submit'
-                            onClick={billInfo && number && date && dueDate && amount && client?._id ? () => {
+                            onClick={billInfo && number && date && dueDate && amount && clientId ? () => {
                                 editBill({
                                     id: billInfo._id, data: {
-                                        companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                                        number, date, dueDate, amount, note
+                                        companyId: business?._id, clientId: clientId, number, date, dueDate, amount, note
                                     }
                                 }, () => { popupRef.current.close(); setPopup(false) })
                                 clearState()
                                 clearState()
-                            } : number && date && dueDate && amount && client?._id ? () => {
+                            } : number && date && dueDate && amount && clientId ? () => {
                                 postBill({
-                                    companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                                    number, date, dueDate, amount, note
+                                    companyId: business?._id, clientId: clientId, number, date, dueDate, amount, note
                                 }, () => { popupRef.current.close(); setPopup(false) })
                                 clearState()
-                            } : !client?._id ? () => setClientInput('Please fill this') : null
+                            } : !clientId ? (e) => {
+                                setClientInput('Please fill this'); e.preventDefault();
+                            } : null
                             }>Save</button>
                         <button type='button' className='CreateInv_button_bottom'
                             onClick={e => { popupRef.current.close(); setPopup(false); clearState() }}>Cancel</button>

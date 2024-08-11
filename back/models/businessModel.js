@@ -24,18 +24,7 @@ const businessSchema = new mongoose.Schema({
     phone: String,
     email: String,
     website: String,
-    clients: [{
-        contactType: String,
-        fullname: String,
-        company: String,
-        bank: String,
-        IBAN: String,
-        address: String,
-        phone: String,
-        email: String,
-        website: String,
-        notes: String
-    }]
+    clients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Clients' }]
 })
 
 const businessModel = mongoose.model('Businesses', businessSchema)

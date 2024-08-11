@@ -21,7 +21,9 @@ const getAllPayments = async (req, res) => {
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
         const User = await userModel.findById(Token.id)
-        const Payment = await paymentModel.find({ companyId: User.currentCompany }).populate({ path: 'bill', select: ['number'] })
+        const Payment = await paymentModel.find({ companyId: User.currentCompany })
+            .populate({ path: 'bill', select: ['number'] })
+            .populate({ path: 'clientId' })
         res.status(200).json(Payment)
     } catch (err) {
         res.status(400).json({ error: err.message })
@@ -39,7 +41,7 @@ const deletePayment = async (req, res) => {
 }
 
 const getPayment = (req, res) => {
-    paymentModel.find(req.body)
+    paymentModel.find(req.body).populate({ path: 'clientId' })
         .then(result => res.json(result))
         .catch(err => res.json(err))
 }

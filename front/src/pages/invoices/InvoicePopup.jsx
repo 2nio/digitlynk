@@ -9,8 +9,8 @@ function InvoicePopup({ view, setView, invoice, client }) {
     const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
 
     useEffect(() => {
-        fetchBusiness()
         view && popupRef.current.showModal()
+        console.log(client)
     }, [client])
 
     useEffect(() => {
@@ -35,7 +35,7 @@ function InvoicePopup({ view, setView, invoice, client }) {
                         {client &&
                             <div className='CreateInv_div_previewCompany'>
                                 <h4>BILLED TO</h4>
-                                <p>{client.company || client.fullname}</p>
+                                <p>{client.name}</p>
                                 <p>{client.address}</p>
                                 <p>{client.email}</p>
                                 <p>{client.phone}</p>

@@ -16,7 +16,7 @@ function Clients({ menuState, setMenuState }) {
     const [client, setClient] = useState()
 
     const { data: clients, loading: loadingClients, fetchData: fetchClients } = useFetch('clients')
-    const filteredClients = clients?.filter(item => (item?.company?.includes(searchClient) || item?.fullname?.includes(searchClient)) &&
+    const filteredClients = clients?.filter(item => item?.name?.includes(searchClient) &&
         item.contactType === (menuState === 'Clients' ? 'client' : 'provider'))
 
     return (
@@ -32,7 +32,7 @@ function Clients({ menuState, setMenuState }) {
                 <div style={{ width: '20px' }}><IoAdd onClick={e => { setClient(); setShowDialog(true) }} size={'1.4rem'} /></div>
             </div>
 
-            <Client contactType={menuState === 'Clients' ? 'client' : 'provider'} showDialog={showDialog}
+            <Client contactType={menuState === 'Clients' ? 'client' : 'provider'} showDialog={showDialog} formId={'Clients'}
                 closeDialog={data => { setShowDialog(data); fetchClients() }} client={client} />
 
             {loadingClients ? <div>Loading...</div> :
@@ -40,7 +40,7 @@ function Clients({ menuState, setMenuState }) {
                 filteredClients?.map(item =>
                     <div className='Revenue_div_entry'>
                         <p className='Revenue_p_critInfo'>{filteredClients?.indexOf(item) + 1}</p>
-                        <p className='Revenue_p_critInfo'>{item.company || item.fullname}</p>
+                        <p className='Revenue_p_critInfo'>{item.name}</p>
                         <p className='Revenue_p_critInfo'>{item.phone || '-'}</p>
                         <div style={{ width: '20px' }}>
                             <RiArrowDropDownLine className='Revenue_DropdownArrow'
@@ -51,7 +51,9 @@ function Clients({ menuState, setMenuState }) {
                                     func: () => {
                                         setClient(item)
                                         setShowDialog(true)
-                                    },
+                                    }
+                                },
+                                {
                                     option: 'Delete',
                                     func: () => {
                                         setClient({ id: item._id })

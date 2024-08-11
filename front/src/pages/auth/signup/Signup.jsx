@@ -22,11 +22,11 @@ function Signup() {
             <div className='Signup_div_main'>
                 <div className='Signup_div_left'>
                     <div className='Signup_div_logo'><img className='Navbar_img_logo' src='./linkincon_new.png'></img>DigitLynk</div>
-                    <p className='Signup_p_title'>Create an account</p>
+                    <p className='Signup_p_titleLeft'>Create an account</p>
                     <p className='Signup_p_subtitle'>All your invoices, income, bills, payments, clients and providers in one place </p>
                 </div>
                 <div className='Signup_div_signup'>
-                    <p className='Signup_p_title'>Signup</p>
+                    <p className='Signup_p_title'>Sign up</p>
                     <input placeholder='Full name' onChange={e => setName(e.target.value)} />
                     <input placeholder='Email' onChange={e => setEmail(e.target.value)} />
                     <input type='password' placeholder='Password' onChange={e => setPassword(e.target.value)} />

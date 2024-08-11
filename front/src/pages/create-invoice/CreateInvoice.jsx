@@ -31,15 +31,9 @@ function CreateInvoice() {
     const [note, setNote] = useState("")
 
     const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
-    const { data: client, loading: loadingClient, fetchData: fetchClient } = useFetch('client')
     //const { data: invoice, loading: loadingInvoice, fetchData: fetchInvoice } = useFetch('invoice')
     const { postData, loading } = usePost('invoice')
     const { postData: editInvoice, loading: loadingEditInvoice } = usePost('editInvoice')
-
-    const sendClient = (client) => {
-        setClientId(client)
-        fetchClient({ params: { id: client } })
-    }
 
     useEffect(() => {
         document.title = "DigitLynk | Create Invoice"
@@ -58,7 +52,7 @@ function CreateInvoice() {
                     setNumber(res.data.number)
                     setNote(res.data.note)
                     setProductList(res.data.productList)
-                    fetchClient({ params: { id: res.data.clientId } })
+                    setClientId(res.data.companyId?._id)
                 } catch (error) {
                     console.log(error)
                     if (error.response.data.error === 'ExpiredRefreshToken') {
@@ -101,7 +95,8 @@ function CreateInvoice() {
                     <div className={preview ? 'none' : 'Revenue_div_second'}>
                         <h1 style={{ marginBottom: '40px' }}>{invoiceId ? 'Edit invoice' : 'Create invoice'}</h1>
                         <div className='CreateInv_div_info'>
-                            <AddClient formId={'CreateInv'} left={'5.2%'} contactType={'client'} clientCompany={invoice?.clientCompany} sendClient={sendClient} />
+                            <AddClient formId={'CreateInv'} left={'5.2%'} contactType={'client'}
+                                clientCompany={invoice?.clientId?.name} sendClient={data => setClientId(data)} />
                             <label className='CreateInv_label'>
                                 <p className='CreateInv_p_label'>DATE</p>
                                 <input defaultValue={invoice?.date} placeholder='Date' type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
@@ -171,14 +166,12 @@ function CreateInvoice() {
                                 <button className='CreateInv_button_bottom' onClick={invoiceId ?
                                     () => editInvoice({
                                         id: invoiceId, data: {
-                                            clientId, clientCompany: client?.company || client?.fullname,
-                                            date, dueDate, number, note, productList
+                                            clientId, date, dueDate, number, note, productList
                                         }
                                     },
                                         () => navigate('/invoices')) :
                                     () => postData({
-                                        companyId: business._id, clientId, clientCompany: client?.company || client?.fullname,
-                                        date, dueDate, number, note, productList
+                                        companyId: business._id, clientId, date, dueDate, number, note, productList
                                     },
                                         () => navigate('/invoices'))
                                 }>Save</button>
@@ -198,19 +191,19 @@ function CreateInvoice() {
                         <h1 className='CreateInv_h1_previewTitle'>INVOICE</h1>
                         <div className='CreateInv_div_previewInfo'>
                             <div className='CreateInv_div_previewClient'>
-                                <h4>{business.company}</h4>
-                                <p>{business.address}</p>
-                                <p>{business.email}</p>
-                                <p>{business.phone}</p>
-                                <p>{business.website}</p>
+                                <h4>{business?.company}</h4>
+                                <p>{business?.address}</p>
+                                <p>{business?.email}</p>
+                                <p>{business?.phone}</p>
+                                <p>{business?.website}</p>
                             </div>
                             <div className='CreateInv_div_previewCompany'>
                                 <h4>BILLED TO</h4>
-                                <p>{client?.company || client?.fullname}</p>
-                                <p>{client?.address}</p>
-                                <p>{client?.email}</p>
-                                <p>{client?.phone}</p>
-                                <p>{client?.website}</p>
+                                <p>{invoice?.clientId?.name}</p>
+                                <p>{invoice?.clientId?.address}</p>
+                                <p>{invoice?.clientId?.email}</p>
+                                <p>{invoice?.clientId?.phone}</p>
+                                <p>{invoice?.clientId?.website}</p>
                             </div>
                         </div>
                         <div className='CreateInv_div_previewDetails'>

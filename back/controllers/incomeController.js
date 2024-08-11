@@ -21,7 +21,9 @@ const getAllIncome = async (req, res) => {
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
         const User = await userModel.findById(Token.id)
-        const Income = await incomeModel.find({ companyId: User.currentCompany }).populate({ path: 'invoice', select: ['number'] })
+        const Income = await incomeModel.find({ companyId: User.currentCompany })
+            .populate({ path: 'invoice', select: ['number'] })
+            .populate({ path: 'clientId' })
         res.status(200).json(Income)
     } catch (err) {
         res.status(400).json({ error: err.message })
@@ -42,7 +44,7 @@ const deleteIncome = async (req, res) => {
 
 const getIncome = (req, res) => {
     const { id } = req.query
-    incomeModel.findById(id)
+    incomeModel.findById(id).populate({ path: 'clientId' })
         .then(result => res.json(result))
         .catch(err => res.json(err))
 }

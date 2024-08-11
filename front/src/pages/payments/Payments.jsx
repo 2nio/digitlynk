@@ -44,7 +44,7 @@ function Payments() {
                             <p className='Revenue_p_critInfo'>{payments.indexOf(item) + 1}</p>
                             <p className='Revenue_p_critInfo'>{item.type}</p>
                             <p className='Revenue_p_critInfo'>{item.date}</p>
-                            <p className='Revenue_p_critInfo'>{item.clientCompany}</p>
+                            <p className='Revenue_p_critInfo'>{item.clientId?.name}</p>
                             <p className='Revenue_p_critInfo'>{item.bill?.number || '-'}</p>
                             <p className='Revenue_p_critAmount'>{item.amount}€</p>
                             <div style={{ width: '20px' }}>

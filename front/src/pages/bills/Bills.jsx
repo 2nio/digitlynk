@@ -79,7 +79,7 @@ function Bills() {
                             <p className='Revenue_p_critInfo'>{bills.indexOf(item) + 1}</p>
                             <p className='Revenue_p_critInfo'>{item.date}</p>
                             <p className='Revenue_p_critInfo'>{item.dueDate}</p>
-                            <p className='Revenue_p_critInfo'>{item.clientCompany}</p>
+                            <p className='Revenue_p_critInfo'>{item.clientId?.name}</p>
                             <p className='Revenue_p_critInfo'><span style={{
                                 backgroundColor: item.status === 'Paid' ? '#06402B'
                                     : item.status === 'Overdue' ? '#cc5a2a' : item.status === 'Partially' && '#ff7600'

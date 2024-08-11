@@ -22,18 +22,17 @@ function Invoices() {
     const [dropmenu, setDropMenu] = useState(false)
     const [view, setView] = useState(false)
     const [invoiceInfo, setInvoiceInfo] = useState()
+    const [client, setClient] = useState()
 
     const { data, loading, fetchData } = useFetch('invoices')
     const { postData: editInvoice, loading: loadingEditInvoice } = usePost('editInvoice')
     const { data: invoice, loading: loadingInvoice, fetchData: fetchInvoice } = useFetch('invoice')
     const { postData: deleteInvoice, loading: loadingDeleteInvoice } = usePost('deleteInvoice')
-    const { data: client, loading: loadingClient, fetchData: fetchClient } = useFetch('client')
 
     useEffect(() => {
         data?.map(item => {
             const equalAmount = item.payment.reduce((a, v) => a + v.amount, 0).toFixed(2) ===
                 (item.productList.reduce((a, v) => a = a + v.amount, 0) + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)
-
             if (item.status !== 'Received' && equalAmount) {
                 editInvoice({ id: item._id, data: { status: 'Received' } }, fetchData)
             }
@@ -61,7 +60,8 @@ function Invoices() {
                 : data &&
                 <div className='Revenue_div_second'>
                     <InvoicePopup view={view} setView={e => setView(e)} invoice={invoice} client={client} />
-                    <AddIncome choose={true} invoiceInfo={invoiceInfo} popupIncome={popupIncome} setPopup={data => setPopupIncome(data)} />
+                    <AddIncome contactType={'client'} choose={true} invoiceInfo={invoiceInfo}
+                        popupIncome={popupIncome} setPopup={data => setPopupIncome(data)} />
                     <h1 style={{ marginBottom: '24px' }}>Invoices</h1>
                     <div className='Revenue_div_entryCrit'>
                         <p className='Revenue_p_crit'>NO</p>
@@ -78,7 +78,7 @@ function Invoices() {
                             <p className='Revenue_p_critInfo'>{data.indexOf(item) + 1}</p>
                             <p className='Revenue_p_critInfo'>{item.date}</p>
                             <p className='Revenue_p_critInfo'>{item.dueDate}</p>
-                            <p className='Revenue_p_critInfo'>{item.clientCompany}</p>
+                            <p className='Revenue_p_critInfo'>{item.clientId?.name}</p>
                             <p className='Revenue_p_critInfo'><span style={{
                                 backgroundColor: item.status === 'Received' ? '#06402B'
                                     : item.status === 'Overdue' ? '#cc5a2a' : item.status === 'Partially' && '#ff7600'
@@ -94,7 +94,7 @@ function Invoices() {
                                         func: () => {
                                             setView(true)
                                             fetchInvoice({ params: { id: item._id } })
-                                            fetchClient({ params: { id: item.clientId } })
+                                            setClient(item.clientId)
                                             setDropMenu(false)
                                         }
                                     },

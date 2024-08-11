@@ -59,10 +59,10 @@ function AddClient({ left, contactType, choose, clientCompany, sendClient, formI
                                 </div>
                                 {clients &&
                                     <div className='CreateInv_div_dropdownClients'>
-                                        {clients.filter(item => (item?.company?.includes(searchClient) || item?.fullname?.includes(searchClient))
+                                        {clients.filter(item => (item?.name?.includes(searchClient))
                                             && item.contactType === contactType).map(item =>
-                                                <li onClick={e => { setClient(item.company || item.fullname); sendClient(item._id); setDropMenu(false) }}>
-                                                    {item.company || item.fullname}</li>
+                                                <li onClick={e => { setClient(item.name); sendClient(item._id); setDropMenu(false) }}>
+                                                    {item.name}</li>
                                             )}
                                     </div>}
                             </div>

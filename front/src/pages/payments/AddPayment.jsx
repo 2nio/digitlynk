@@ -9,6 +9,7 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
 
     const popupRef = useRef()
     const [clientInput, setClientInput] = useState('')
+    const [clientId, setClientId] = useState()
     const [type, setType] = useState('Payment')
     const [bank, setBank] = useState('')
     const [IBAN, setIBAN] = useState('')
@@ -40,15 +41,15 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
     }, [])
 
     useEffect(() => {
-        fetchClient({ params: { id: billInfo?.clientId } })
-        setClientInput(billInfo?.clientCompany)
+        setClientId(billInfo?.clientId?._id)
+        setClientInput(billInfo?.clientId?.name)
         setAmount((billInfo?.amount - billInfo?.payment?.reduce((a, v) => a + v.amount, 0)).toFixed(2))
         setMaxAmount((billInfo?.amount - billInfo?.payment?.reduce((a, v) => a + v.amount, 0)).toFixed(2))
     }, [billInfo])
 
     useEffect(() => {
-        fetchClient({ params: { id: paymentInfo?.clientId } })
-        setClientInput(paymentInfo?.clientCompany)
+        setClientId(paymentInfo?.clientId?._id)
+        setClientInput(paymentInfo?.clientId?.name)
         setAmount(paymentInfo?.amount); setBank(paymentInfo?.bank); setIBAN(paymentInfo?.IBAN); setCategory(paymentInfo?.category);
         setDate(paymentInfo?.date); setNumber(paymentInfo?.number); setNotes(paymentInfo?.notes); setType(paymentInfo?.type)
     }, [paymentInfo])
@@ -58,28 +59,27 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '16px' }}>{paymentInfo ? 'Edit payment' : 'Add payment'}</h1>
             <form id='AddPayment_div_form' onSubmit={
-                paymentInfo && date && amount && client._id ? () => {
+                paymentInfo && date && amount && clientId ? () => {
                     editPayment({
                         id: paymentInfo._id, data: {
-                            companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                            bill: billInfo?._id, type, bank, IBAN, number, category, date, amount, notes
+                            companyId: business?._id, clientId: clientId, bill: billInfo?._id, type, bank, IBAN, number, category, date, amount, notes
                         }
                     }, () => { popupRef.current.close(); setPopup(false) })
                     clearState()
-                } : date && amount && client?._id ? () => {
+                } : date && amount && clientId ? () => {
                     postPayment({
-                        companyId: business?._id, clientId: client?._id, clientCompany: client?.company,
-                        bill: billInfo?._id, type, bank, IBAN, number, category, date, amount, notes
+                        companyId: business?._id, clientId: clientId, bill: billInfo?._id, type, bank, IBAN, number, category, date, amount, notes
                     }, () => { popupRef.current.close(); setPopup(false) })
                     clearState()
-                } : !client?._id ? () => setClientInput('Please fill this') : null
+                } : !clientId ? (e) => {
+                    setClientInput('Please fill this'); e.preventDefault();
+                } : null
             }>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
                         <AddClient contactType={contactType} choose={choose}
                             clientCompany={clientInput}
-                            sendClient={data => fetchClient({ params: { id: data } })} />
-                        <input required value={client?._id} style={{ display: 'none' }} />
+                            sendClient={data => setClientId(data)} />
                         <label className='CreateInv_label'>
                             <p className='CreateInv_p_label'>TYPE</p>
                             <select className='CreateInv_select' value={type} onChange={e => setType(e.target.value)}>

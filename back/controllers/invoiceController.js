@@ -19,7 +19,9 @@ const getAllInvoices = async (req, res) => {
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
         const User = await userModel.findById(Token.id)
-        const Invoices = await invoiceModel.find({ companyId: User.currentCompany }).populate({ path: 'payment', select: ['amount'] })
+        const Invoices = await invoiceModel.find({ companyId: User.currentCompany })
+            .populate({ path: 'payment', select: ['amount'] })
+            .populate({ path: 'clientId' })
         res.status(200).json(Invoices)
     } catch (err) {
         res.status(400).json({ error: err.message })
@@ -28,7 +30,7 @@ const getAllInvoices = async (req, res) => {
 
 const getInvoice = (req, res) => {
     const { id } = req.query
-    invoiceModel.findById(id)
+    invoiceModel.findById(id).populate({ path: 'clientId' })
         .then(result => res.json(result))
         .catch(err => res.json(err))
 }

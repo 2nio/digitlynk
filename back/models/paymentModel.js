@@ -6,11 +6,7 @@ const paymentSchema = new mongoose.Schema({
         required: true
     },
     clientId: {
-        type: String,
-        required: true
-    },
-    clientCompany: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId, ref: 'Clients',
         required: true
     },
     date: {
