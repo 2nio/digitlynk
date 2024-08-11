@@ -17,7 +17,7 @@ function Invoices() {
     const navigate = useNavigate()
     const [popupIncome, setPopupIncome] = useState(false)
 
-    const today = new Date().toISOString().split('T')[0]
+    const today = new Date().toUTCString().split('T')[0]
     const [menu, setMenu] = useState('')
     const [dropmenu, setDropMenu] = useState(false)
     const [view, setView] = useState(false)
@@ -82,7 +82,7 @@ function Invoices() {
                             <p className='Revenue_p_critInfo'><span style={{
                                 backgroundColor: item.status === 'Received' ? '#06402B'
                                     : item.status === 'Overdue' ? '#cc5a2a' : item.status === 'Partially' && '#ff7600'
-                            }}>{item.status}</span></p>
+                            }}></span>{item.status}</p>
                             <p className='Revenue_p_critAmount'>{(item.productList.reduce((a, v) => a = a + v.amount, 0)
                                 + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
                             <div style={{ width: '20px' }}>

@@ -49,10 +49,12 @@
 }
 
 .Revenue_p_critInfo span {
+    display: inline-block;
     background-color: #192841;
-    padding: 6px 12px;
-    border-radius: 16px;
-    font-size: 14px;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    margin-right: 8px;
 }
 
 .Revenue_p_critAmount {

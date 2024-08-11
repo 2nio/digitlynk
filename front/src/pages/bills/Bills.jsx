@@ -83,7 +83,7 @@ function Bills() {
                             <p className='Revenue_p_critInfo'><span style={{
                                 backgroundColor: item.status === 'Paid' ? '#06402B'
                                     : item.status === 'Overdue' ? '#cc5a2a' : item.status === 'Partially' && '#ff7600'
-                            }}>{item.status}</span></p>
+                            }}></span>{item.status}</p>
                             <p className='Revenue_p_critAmount'>{item.amount}€</p>
                             <div style={{ width: '20px' }}>
                                 <RiArrowDropDownLine className='Revenue_DropdownArrow'

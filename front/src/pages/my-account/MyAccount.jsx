@@ -27,24 +27,36 @@ function MyAccount() {
 
     return (
         data &&
-        <>
-            <div className='MyAcc_div_main'>
-                <div className='MyAcc_div_info'>
-                    <div className='MyAcc_div_photo'><FaRegUser style={{ alignSelf: 'center' }} size={'3rem'} /></div>
-                    <div style={{ marginLeft: 16 }}>
-                        <p style={{ fontWeight: 600, fontSize: 32 }}>{data.name}</p>
-                        <p style={{ fontWeight: 500, fontSize: 16 }}>{data.email}</p>
-                    </div>
-                </div>
+        <div className='Signup_div_main'>
+            <div className='Signup_div_left'>
+                <p className='Signup_p_titleLeft' style={{ marginBottom: '32px', fontSize: '48px' }}>Hello {data.name}</p>
+                <nav className='MyAcc_nav_navbar'>
+                    <a href='/' className='Navbar_a_logo'>
+                        <div className='Navbar_div_logo'><img className='Navbar_img_logo' src='./linkincon_new.png'></img>DigitLynk</div>
+                    </a>
+                    <ul>
+                        <li>
+                            <a>BILLING</a>
+                        </li>
+                        <li>
+                            <a onClick={e => setCreateAccount(true)}>CREATE COMPANY</a>
+                        </li>
+                        <li>
+                            <a onClick={signout}>SIGN OUT</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div className='Signup_div_signup'>
                 <div className={createAccount ? 'MyAcc_div_createAcc' : 'none'}>
+                    <p className='MyAcc_p_label'>Create a company</p>
                     <input placeholder='Company Name' onChange={e => setCompany(e.target.value)} />
                     <input placeholder='Company Address' onChange={e => setAddress(e.target.value)} />
                     <button onClick={e => createCompany({ company, address }, () => { setCreateAccount(false); fetchData() })}>Create company</button>
-                    <p onClick={e => { setCreateAccount(false); fetchData() }}>CANCEL</p>
-
+                    <a onClick={e => { setCreateAccount(false); }}>Cancel</a>
                 </div>
                 <div className={createAccount ? 'none' : 'MyAcc_div_companies'}>
-                    <p className='MyAcc_p_label'>COMPANIES</p>
+                    <p className='MyAcc_p_label'>Your companies</p>
                     {data.companies.map(item =>
                         <button onClick={e => {
                             setCurrentCompany({ companyId: item.id })
@@ -52,15 +64,8 @@ function MyAccount() {
                         }}>{item.id?.company}</button>
                     )}
                 </div>
-                <span className={createAccount ? 'none' : 'MyAcc_span_separator'}></span>
-                <div className={createAccount ? 'none' : 'MyAcc_div_actions'} >
-                    <p className='MyAcc_p_label'>ACTIONS</p>
-                    <button >Plans & Billing</button>
-                    <button onClick={e => setCreateAccount(true)}>Create company</button>
-                    <button onClick={signout}>Sign out</button>
-                </div>
             </div >
-        </>
+        </div >
     )
 }
 

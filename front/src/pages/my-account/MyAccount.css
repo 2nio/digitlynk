@@ -1,56 +1,33 @@
-.MyAcc_div_main {
-    background-color: rgb(24, 24, 24);
-    width: fit-content;
-    height: fit-content;
-    border-radius: 16px;
-    margin: 80px auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 80px;
-    flex-direction: column;
-}
-
 .MyAcc_div_main input {
     outline: none;
     border: none;
-    background-color: rgb(18, 18, 18);
-    width: 320px;
-    height: 40px;
-    border-radius: 20px;
+    background-color: rgb(20, 20, 20);
+    width: 380px;
+    height: 28px;
+    border-radius: 6px;
     padding: 12px;
     font-size: 14px;
     font-weight: 500;
     margin-top: 16px;
 }
 
+.MyAcc_nav_navbar {
+    cursor: pointer;
+    background-color: rgba(18, 18, 18, 0.1);
+    backdrop-filter: blur(4px) saturate(160%) contrast(45%) brightness(21%);
+    -webkit-backdrop-filter: blur(4px) saturate(160%) contrast(45%) brightness(21%);
+    height: 50px;
+    display: flex;
+    width: fit-content;
+    border-radius: 80px;
+    align-items: center;
+    justify-content: center;
+}
+
 .MyAcc_div_info {
     display: flex;
     align-items: center;
     margin-bottom: 48px;
-}
-
-.MyAcc_div_photo {
-    display: flex;
-    justify-content: center;
-    background-color: rgb(34, 34, 34);
-    width: 96px;
-    height: 96px;
-    border-radius: 60px;
-}
-
-.MyAcc_div_main button {
-    text-indent: 8px;
-    text-align: start;
-    width: 320px;
-    height: 46px;
-    background-color: rgb(24, 24, 24);
-    border: none;
-    margin-top: 4px;
-    border-radius: 20px;
-    font-size: 15px;
-    font-weight: 500;
-    border-width: 2px;
 }
 
 .MyAcc_div_main button:hover {
@@ -62,12 +39,41 @@
     flex-direction: column;
 }
 
+.MyAcc_div_actions button {
+    cursor: pointer;
+    width: 400px;
+    height: 46px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border: none;
+    margin-top: 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.MyAcc_div_companies button {
+    cursor: pointer;
+    width: 400px;
+    height: 46px;
+    background-color: rgb(16, 16, 16);
+    color: #fff;
+    margin-top: 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.MyAcc_div_companies button:hover {
+    background-color: rgb(20, 20, 20);
+    font-weight: 500;
+
+}
+
 .MyAcc_p_label {
-    margin-bottom: 8px;
-    font-weight: 800;
-    font-size: 13px;
-    align-self: flex-start;
-    color: #b4b4b4;
+    margin: 24px;
+    font-size: 42px;
+    font-weight: 600;
 }
 
 .MyAcc_span_separator {
@@ -85,30 +91,6 @@
     justify-content: center;
     align-items: center;
     margin-bottom: 8px;
-}
-
-.MyAcc_div_createAcc button {
-    text-align: center;
-    width: 320px;
-    height: 48px;
-    background-color: #02B875;
-    border: none;
-    margin-top: 24px;
-    border-radius: 20px;
-    font-size: 15px;
-    font-weight: 500;
-}
-.MyAcc_div_createAcc button:hover {
-    background-color: #02B875;
-}
-
-.MyAcc_div_createAcc p {
-    text-decoration: none;
-    margin-top: 16px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #ffffffb4;
-    cursor: pointer;
 }
 
 .MyAcc_div_createAcc p:hover {
