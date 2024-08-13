@@ -38,7 +38,7 @@ function Bills() {
                 editBill({ id: item._id, data: { status: 'Partially' } }, fetchBills)
             }
             else if (item.status === 'Overdue' && item.dueDate >= today || item.status !== 'Issued' && !equalAmount && item.dueDate >= today) {
-                editBill({ id: item._id, data: { status: 'Issued' } })
+                editBill({ id: item._id, data: { status: 'Issued' } }, fetchBills)
             } else if (item.status !== 'Overdue' && !item.payment.length && item.dueDate < today) {
                 editBill({ id: item._id, data: { status: 'Overdue' } }, fetchBills)
             }

@@ -24,7 +24,11 @@ const businessSchema = new mongoose.Schema({
     phone: String,
     email: String,
     website: String,
-    clients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Clients' }]
+    clients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Clients' }],
+    settings: {
+        displayInvoices: String,
+        displayBills: String
+    }
 })
 
 const businessModel = mongoose.model('Businesses', businessSchema)

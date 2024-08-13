@@ -29,6 +29,7 @@ const paymentSchema = new mongoose.Schema({
     },
     category: {
         type: String,
+        default: 'Other'
     },
     amount: {
         type: Number,

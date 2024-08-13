@@ -17,7 +17,7 @@ function Invoices() {
     const navigate = useNavigate()
     const [popupIncome, setPopupIncome] = useState(false)
 
-    const today = new Date().toUTCString().split('T')[0]
+    const today = new Date().toISOString().split('T')[0]
     const [menu, setMenu] = useState('')
     const [dropmenu, setDropMenu] = useState(false)
     const [view, setView] = useState(false)
