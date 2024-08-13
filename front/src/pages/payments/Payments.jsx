@@ -18,6 +18,10 @@ function Payments() {
     const { data: payments, loading: loadingPayments, fetchData: fetchPayments } = useFetch('payments')
     const { postData: deletePayment } = usePost('deletePayment')
 
+    useEffect(() => {
+        document.title = "DigitLynk | Payments"
+    }, [])
+
     return (
         <div className='All_div_main'>
             <Menu />

@@ -18,6 +18,10 @@ function Income() {
     const { data: income, loading: loadingIncome, fetchData: fetchIncome } = useFetch('allIncome')
     const { postData: deleteIncome, loading: loadingDeleteIncome } = usePost('deleteIncome')
 
+    useEffect(() => {
+        document.title = "DigitLynk | Income"
+    }, [])
+
     return (
         <div className='All_div_main'>
             <Menu />

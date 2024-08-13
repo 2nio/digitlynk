@@ -45,7 +45,24 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
     return (
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '40px' }}>{billInfo ? 'Edit bill' : 'Add bill'}</h1>
-            <form id='AddBill_div_form'>
+            <form id='AddBill_div_form' onSubmit={
+                billInfo && number && date && dueDate && amount && clientId ? () => {
+                    editBill({
+                        id: billInfo._id, data: {
+                            companyId: business?._id, clientId: clientId, number, date, dueDate, amount, note
+                        }
+                    }, () => { popupRef.current.close(); setPopup(false) })
+                    clearState()
+                    clearState()
+                } : number && date && dueDate && amount && clientId ? () => {
+                    postBill({
+                        companyId: business?._id, clientId: clientId, number, date, dueDate, amount, note
+                    }, () => { popupRef.current.close(); setPopup(false) })
+                    clearState()
+                } : !clientId ? (e) => {
+                    setClientInput('Please fill this'); e.preventDefault();
+                } : null
+            }>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
                         <AddClient contactType={contactType} choose={choose} clientCompany={clientInput}
@@ -76,25 +93,8 @@ function AddBill({ contactType, choose, billInfo, popupIncome, setPopup }) {
                         <textarea onChange={e => setNote(e.target.value)} defaultValue={note} placeholder='Notes' />
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
-                        <button className='CreateInv_button_bottom' type='submit'
-                            onClick={billInfo && number && date && dueDate && amount && clientId ? () => {
-                                editBill({
-                                    id: billInfo._id, data: {
-                                        companyId: business?._id, clientId: clientId, number, date, dueDate, amount, note
-                                    }
-                                }, () => { popupRef.current.close(); setPopup(false) })
-                                clearState()
-                                clearState()
-                            } : number && date && dueDate && amount && clientId ? () => {
-                                postBill({
-                                    companyId: business?._id, clientId: clientId, number, date, dueDate, amount, note
-                                }, () => { popupRef.current.close(); setPopup(false) })
-                                clearState()
-                            } : !clientId ? (e) => {
-                                setClientInput('Please fill this'); e.preventDefault();
-                            } : null
-                            }>Save</button>
-                        <button type='button' className='CreateInv_button_bottom'
+                        <button className='CreateInv_button_bottom' type='submit'>Save</button>
+                        <button type='button' className='CreateInv_button_secondary'
                             onClick={e => { popupRef.current.close(); setPopup(false); clearState() }}>Cancel</button>
                     </div>
                 </div>

@@ -8,9 +8,9 @@
     border: none;
     outline: none;
     width: 260px;
-    height: 32px;
-    padding: 8px;
-    border-radius: 8px;
+    height: 24px;
+    padding: 12px;
+    border-radius: 32px;
     font-weight: 500;
 }
 
@@ -22,9 +22,9 @@
     border: none;
     outline: none;
     width: 260px;
-    height: 32px;
-    padding: 8px;
-    border-radius: 8px;
+    height: 24px;
+    padding: 12px;
+    border-radius: 32px;
     font-weight: 400;
     font-size: 14px;
 }
@@ -85,25 +85,35 @@
 }
 
 .CreateInv_button_bottom {
-    background-color: #02B875;
-    border: none;
-    height: 40px;
+    cursor: pointer;
     width: 120px;
-    border-radius: 20px;
-    margin: 0px 8px;
-    font-weight: 500;
-    font-size: 13px;
+    height: 40px;
+    background-color: #fff;
+    color: black;
+    border: none;
+    border-radius: 32px;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 8px;
 }
 
 .CreateInv_button_secondary {
     background-color: #02b87500;
-    border: solid 2px #02B875;
-    height: 40px;
+    border: solid 2px #fff;
+    cursor: pointer;
     width: 120px;
-    border-radius: 20px;
-    margin: 0px 8px;
+    height: 40px;
+    margin: 0 8px;
+    border-radius: 32px;
+    font-size: 14px;
     font-weight: 500;
-    font-size: 13px;
+    outline: none;
+}
+
+.CreateInv_button_secondary:hover {
+    background-color: #fff;
+    color: black;
+    font-weight: 600;
 }
 
 .none {
@@ -271,7 +281,7 @@
     position: absolute;
     margin-top: 16px;
     left: 12%;
-    border-radius: 8px;
+    border-radius: 16px;
     border: solid 2px rgb(20, 20, 20);
     background-color: rgb(16, 16, 16);
     width: 248px;
@@ -293,7 +303,7 @@
 .CreateInv_div_dropdown li {
     display: flex;
     width: calc(100% - 8px);
-    border-radius: 8px;
+    border-radius: 32px;
     min-height: 32px;
     font-size: 13px;
     font-weight: 500;
@@ -387,6 +397,9 @@
     width: 276px;
     height: 48px;
     padding: 8px;
-    border-radius: 8px;
+    border-radius: 32px;
     font-weight: 500;
+}
+select::-ms-expand {
+    display: none;
 }

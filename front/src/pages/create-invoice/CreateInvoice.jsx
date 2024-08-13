@@ -36,7 +36,7 @@ function CreateInvoice() {
     const { postData: editInvoice, loading: loadingEditInvoice } = usePost('editInvoice')
 
     useEffect(() => {
-        document.title = "DigitLynk | Create Invoice"
+        document.title = "DigitLynk | Create invoice"
         /* fetchInvoice({ params: { id: invoiceId } }, () => {
             fetchClient({ params: { id: invoice?.clientId } })
             setClientId(invoice?.clientId)
@@ -182,9 +182,9 @@ function CreateInvoice() {
                 <div className={preview ? 'All_div_main' : 'none'} style={{ justifyContent: preview ? 'flex-start' : '' }}>
                     <div className='CreateInv_div_previewButtons'>
                         <div className='CreateInv_div_bottomButtons'>
-                            <button className='CreateInv_button_bottom' onClick={e => setPreview(false)}>Back</button>
-                            <button className='CreateInv_button_bottom' onClick={handlePrint}>Print</button>
-                            <button className='CreateInv_button_bottom'>Download</button>
+                            <button className='CreateInv_button_secondary' onClick={e => setPreview(false)}>Back</button>
+                            <button className='CreateInv_button_secondary' onClick={handlePrint}>Print</button>
+                            <button className='CreateInv_button_secondary'>Download</button>
                         </div>
                     </div>
                     <main className='CreateInv_div_preview print'>

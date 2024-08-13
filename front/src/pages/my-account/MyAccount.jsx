@@ -50,8 +50,8 @@ function MyAccount() {
             <div className='Signup_div_signup'>
                 <div className={createAccount ? 'MyAcc_div_createAcc' : 'none'}>
                     <p className='MyAcc_p_label'>Create a company</p>
-                    <input placeholder='Company Name' onChange={e => setCompany(e.target.value)} />
-                    <input placeholder='Company Address' onChange={e => setAddress(e.target.value)} />
+                    <input placeholder='Company name' onChange={e => setCompany(e.target.value)} />
+                    <input placeholder='Company address' onChange={e => setAddress(e.target.value)} />
                     <button onClick={e => createCompany({ company, address }, () => { setCreateAccount(false); fetchData() })}>Create company</button>
                     <a onClick={e => { setCreateAccount(false); }}>Cancel</a>
                 </div>

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { IoAdd } from "react-icons/io5";
-import { MdOutlineModeEdit } from "react-icons/md";
+import { RiArrowDropDownLine } from "react-icons/ri";
 import { IoChevronBack } from "react-icons/io5";
 import { useFetch } from '../../../hooks/useFetch';
 
@@ -18,7 +18,7 @@ function Users({ menuState, setMenuState }) {
             <div className='Revenue_div_entryCrit'>
                 <p className='Revenue_p_crit'>NO</p>
                 <p className='Revenue_p_crit'>COMPANY</p>
-                <p className='Revenue_p_crit'>PHONE</p>
+                <p className='Revenue_p_crit'>EMAIL</p>
                 <div style={{ width: '20px' }}><IoAdd size={'1.4rem'} /></div>
             </div>
 
@@ -30,7 +30,7 @@ function Users({ menuState, setMenuState }) {
                         <p className='Revenue_p_critInfo'>{item.id.name}</p>
                         <p className='Revenue_p_critInfo'>{item.id.email}</p>
                         <div style={{ width: '20px' }}>
-                            <MdOutlineModeEdit size={'1.2rem'} />
+                            <RiArrowDropDownLine className='Revenue_DropdownArrow' size={'1.6rem'} />
                         </div>
                     </div>
                 )

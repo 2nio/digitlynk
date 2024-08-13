@@ -127,7 +127,7 @@ function AddPayment({ contactType, choose, paymentInfo, billInfo, popupPayment, 
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
                         <button className='CreateInv_button_bottom' type='submit'>Save</button>
-                        <button type='button' className='CreateInv_button_bottom'
+                        <button type='button' className='CreateInv_button_secondary'
                             onClick={e => { popupRef.current.close(); setPopup(false); clearState() }}>Cancel</button>
                     </div>
                 </div>

@@ -64,15 +64,14 @@ function Account({ popupState, setPopup }) {
                 data &&
                 <div style={{ display: menu === 'Account' || menu === 'Edit' ? 'block' : 'none' }}>
                     <h1 style={{ marginBottom: '32px', fontSize: '32px' }}>Overview</h1>
-                    <div className='Account_div_main'>
-                        <div className='MyAcc_div_info'>
-                            <div className='MyAcc_div_photo'><IoMdBusiness style={{ alignSelf: 'center' }} size={'3rem'} /></div>
-                            <div style={{ marginLeft: 16, maxWidth: '320px', overflowWrap: 'break-word' }}>
-                                <p style={{ fontWeight: 600, fontSize: 32 }}>{data.company}</p>
-                                <p style={{ fontWeight: 500, fontSize: 16 }}>{data.address}</p>
-                            </div>
-                            <MdEdit onClick={e => setMenu('Edit')} style={{ marginLeft: '16px' }} size={'1.6rem'} />
+                    <div className='Account_div_info'>
+                        <div className='MyAcc_div_photo'><IoMdBusiness style={{ alignSelf: 'center' }} size={'3rem'} /></div>
+                        <div style={{ marginLeft: 16, marginRight: 24, maxWidth: '320px', overflowWrap: 'break-word' }}>
+                            <p style={{ fontWeight: 600, fontSize: 32 }}>{data.company}</p>
+                            <p style={{ fontWeight: 500, fontSize: 16 }}>{data.address}</p>
                         </div>
+                        {menu !== 'Edit' && <button className='CreateInv_button_secondary' onClick={e => setMenu('Edit')}
+                            style={{ marginLeft: '16px' }} size={'1.6rem'} >Edit</button>}
                     </div>
                     <div className='Account_div_bottom'>
                         <div style={{ display: menu !== 'Edit' && 'none' }}>
@@ -84,40 +83,48 @@ function Account({ popupState, setPopup }) {
                                     </label>
                                     <label className='CreateInv_label'>
                                         <p className='CreateInv_p_label'>COMPANY NAME</p>
-                                        <input maxLength={'40'} defaultValue={data.company} placeholder='Company' className='CreateInv_input' onChange={e => setCompany(e.target.value)}></input>
+                                        <input maxLength={'40'} defaultValue={data.company} placeholder='Company' className='CreateInv_input'
+                                            onChange={e => setCompany(e.target.value)}></input>
                                     </label>
                                     <label className='CreateInv_label'>
                                         <p className='CreateInv_p_label'>BANK</p>
-                                        <input defaultValue={data.bank} placeholder='Bank' className='CreateInv_input' onChange={e => setBank(e.target.value)}></input>
+                                        <input defaultValue={data.bank} placeholder='Bank' className='CreateInv_input'
+                                            onChange={e => setBank(e.target.value)}></input>
                                     </label>
                                     <label className='CreateInv_label'>
                                         <p className='CreateInv_p_label'>IBAN</p>
-                                        <input defaultValue={data.IBAN} placeholder='IBAN' className='CreateInv_input' onChange={e => setIBAN(e.target.value)}></input>
+                                        <input defaultValue={data.IBAN} placeholder='IBAN' className='CreateInv_input'
+                                            onChange={e => setIBAN(e.target.value)}></input>
                                     </label>
                                 </div>
                                 <div className='CreateInv_div_popupInfoChild'>
                                     <label className='CreateInv_label'>
                                         <p className='CreateInv_p_label'>ADDRESS</p>
-                                        <input defaultValue={data.address} maxLength={'40'} placeholder='Address' className='CreateInv_input' onChange={e => setAddress(e.target.value)}></input>
+                                        <input defaultValue={data.address} maxLength={'40'} placeholder='Address' className='CreateInv_input'
+                                            onChange={e => setAddress(e.target.value)}></input>
                                     </label>
                                     <label className='CreateInv_label'>
                                         <p className='CreateInv_p_label'>PHONE</p>
-                                        <input defaultValue={data.phone} placeholder='Phone' className='CreateInv_input' onChange={e => setPhone(e.target.value)}></input>
+                                        <input defaultValue={data.phone} placeholder='Phone' className='CreateInv_input'
+                                            onChange={e => setPhone(e.target.value)}></input>
                                     </label>
                                     <label className='CreateInv_label'>
                                         <p className='CreateInv_p_label'>EMAIL</p>
-                                        <input defaultValue={data.email} placeholder='Email' className='CreateInv_input' onChange={e => setEmail(e.target.value)}></input>
+                                        <input defaultValue={data.email} placeholder='Email' className='CreateInv_input'
+                                            onChange={e => setEmail(e.target.value)}></input>
                                     </label>
                                     <label className='CreateInv_label'>
                                         <p className='CreateInv_p_label'>WEBSITE</p>
-                                        <input defaultValue={data.website} placeholder='Website' className='CreateInv_input' onChange={e => setWebsite(e.target.value)}></input>
+                                        <input defaultValue={data.website} placeholder='Website' className='CreateInv_input'
+                                            onChange={e => setWebsite(e.target.value)}></input>
                                     </label>
                                 </div>
                             </div>
                             <div className='CreateInv_div_popupInfoBottom'>
                                 <div className='CreateInv_div_bottomButtons'>
                                     <button className='CreateInv_button_bottom' onClick={editBusiness}>Save</button>
-                                    <button className='CreateInv_button_secondary' onClick={e => { setMenu('Account'); fetchData(); clearState() }}>Cancel</button>
+                                    <button className='CreateInv_button_secondary'
+                                        onClick={e => { setMenu('Account'); fetchData(); clearState() }}>Cancel</button>
                                 </div>
                             </div>
                         </div>

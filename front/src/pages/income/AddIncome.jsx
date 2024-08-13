@@ -64,7 +64,23 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
         <dialog ref={popupRef} className='CreateInv_div_popup' style={{ height: '72%' }}>
             <h1 style={{ marginBottom: '16px' }}>{incomeInfo ? 'Edit income' : 'Add income'}</h1>
             <form id='AddIncome_div_form' onSubmit={
-                null
+                incomeInfo && date && amount && clientId ? () => {
+                    editIncome({
+                        id: incomeInfo._id, data: {
+                            companyId: business?._id, clientId: clientId, invoice: invoiceInfo?._id,
+                            type, bank, IBAN, number, category, date, amount, notes
+                        }
+                    }, () => { popupRef.current.close(); setPopup(false) })
+                    clearState()
+                } : date && amount && clientId && amount >= 0.1 && amount <= maxAmount ? () => {
+                    postIncome({
+                        companyId: business?._id, clientId: clientId, invoice: invoiceInfo?._id,
+                        type, bank, IBAN, number, category, date, amount, notes
+                    }, () => { popupRef.current.close(); setPopup(false) })
+                    clearState()
+                } : !clientId ? (e) => {
+                    setClientInput('Please fill this'); e.preventDefault();
+                } : null
             }>
                 <div className='CreateInv_div_popupInfo'>
                     <div className='CreateInv_div_popupInfoChild'>
@@ -118,27 +134,8 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
                         <textarea onChange={e => setNotes(e.target.value)} defaultValue={notes} placeholder='Notes' />
                     </label>
                     <div className='CreateInv_div_bottomButtons'>
-                        <button className='CreateInv_button_bottom' type='submit' onClick={
-
-                            incomeInfo && date && amount && clientId ? () => {
-                                editIncome({
-                                    id: incomeInfo._id, data: {
-                                        companyId: business?._id, clientId: clientId, invoice: invoiceInfo?._id,
-                                        type, bank, IBAN, number, category, date, amount, notes
-                                    }
-                                }, () => { popupRef.current.close(); setPopup(false) })
-                                clearState()
-                            } : date && amount && clientId && amount >= 0.1 && amount <= maxAmount ? () => {
-                                postIncome({
-                                    companyId: business?._id, clientId: clientId, invoice: invoiceInfo?._id,
-                                    type, bank, IBAN, number, category, date, amount, notes
-                                }, () => { popupRef.current.close(); setPopup(false) })
-                                clearState()
-                            } : !clientId ? (e) => {
-                                setClientInput('Please fill this'); e.preventDefault();
-                            } : null
-                        }>Save</button>
-                        <button type='button' className='CreateInv_button_bottom'
+                        <button className='CreateInv_button_bottom' type='submit'>Save</button>
+                        <button type='button' className='CreateInv_button_secondary'
                             onClick={e => { popupRef.current.close(); setPopup(false); clearState() }}>Cancel</button>
                     </div>
                 </div>

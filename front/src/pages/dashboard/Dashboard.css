@@ -27,7 +27,7 @@
 
 .Dashboard_div_invoices {
     background: rgba(16, 16, 16);
-    border-radius: 8px;
+    border-radius: 16px;
     width: 420px;
     height: 84.4%;
     padding: 16px;
@@ -36,16 +36,16 @@
 
 .Dashboard_div_revenue {
     background: rgba(16, 16, 16);
-    border-radius: 8px;
+    border-radius: 16px;
     width: 420px;
     padding: 16px;
     margin: 8px;
-    max-height: 86%;
+    max-height: 88%;
 }
 
 .Dashboard_div_profitAndLoss {
     background: rgba(16, 16, 16);
-    border-radius: 8px;
+    border-radius: 16px;
     width: 95%;
     padding: 16px;
     margin: 8px;
@@ -85,7 +85,7 @@
     background-color: rgb(24, 24, 24);
     width: 98%;
     height: 84px;
-    border-radius: 8px;
+    border-radius: 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;

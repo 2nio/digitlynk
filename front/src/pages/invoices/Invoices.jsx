@@ -30,6 +30,10 @@ function Invoices() {
     const { postData: deleteInvoice, loading: loadingDeleteInvoice } = usePost('deleteInvoice')
 
     useEffect(() => {
+        document.title = "DigitLynk | Invoices"
+    }, [])
+
+    useEffect(() => {
         data?.map(item => {
             const equalAmount = item.payment.reduce((a, v) => a + v.amount, 0).toFixed(2) ===
                 (item.productList.reduce((a, v) => a = a + v.amount, 0) + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)
