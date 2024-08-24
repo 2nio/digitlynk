@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: ['http://localhost:3000'],
+    origin: ['https://fluxloop-api.vercel.app'],
     credentials: true
 }))
 
@@ -32,6 +32,10 @@ mongoose.connect(`mongodb+srv://cereals:${process.env.DB_PASS}@cluster0.uf79cow.
     .catch((error) => {
         console.error('Error connecting to MongoDB Atlas: ', error);
     });
+
+app.get('/', (req, res) => {
+    res.json('hello from backend')
+})
 
 //User
 app.post('/signup', Signup)
