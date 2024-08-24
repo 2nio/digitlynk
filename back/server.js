@@ -13,7 +13,7 @@ const { createIncome, getAllIncome, deleteIncome, getIncome, editIncome } = requ
 const { createBill, getAllBills, deleteBill, getBill, editBill } = require('./controllers/billController');
 const { createPayment, getAllPayments, deletePayment, getPayment, editPayment } = require('./controllers/paymentController');
 const { createClient, getAllClients, getClient, editClient, deleteClient } = require('./controllers/clientController');
-//const cors = require('./middleware/cors');
+const cors = require('./middleware/cors');
 
 const app = express();
 app.use((req, res, next) => {
@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
 
 //User
 app.post('/signup', Signup)
-app.post('/login', Login)
+app.post('/login', cors, Login)
 
 app.use(verifyAccessToken)
 
@@ -69,7 +69,7 @@ app.post('/business', createBusiness)
 app.use(verifyCurrentCompany)
 
 //User
-app.get('user:id', findUser)
+app.get('/user/:id', findUser)
 app.post('/addUser', addUser)
 app.post('/removeUser', removeUser)
 
