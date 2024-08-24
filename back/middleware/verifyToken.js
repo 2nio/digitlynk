@@ -61,7 +61,7 @@ const verifyRefreshToken = (res, req) => {
                 const User = userModel.findById(decoded.id)
                 if (User) {
                     const accessToken = createAccessToken(decoded.id)
-                    res.cookie('accessToken', accessToken, { maxAge: 60000 * 15})
+                    res.cookie('accessToken', accessToken, { maxAge: 60000 * 5})
                     accessTokenCreated = true
                     req.headers['authorization'] = `Bearer ${accessToken}`;
                 } else {

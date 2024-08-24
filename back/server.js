@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
     origin: ['https://fluxloop.vercel.app'],
-    methods: ['POST', 'GET'],
+    methods: ['POST', 'GET', 'DELETE'],
     credentials: true
 }))
 

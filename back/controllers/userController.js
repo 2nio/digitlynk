@@ -3,7 +3,7 @@ const userModel = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
 const createAccessToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' })
+    return jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '5m' })
 }
 const createRefreshToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '24h' })
@@ -14,7 +14,7 @@ const Signup = async (req, res) => {
     try {
         const User = await userModel.signup(email, password, name)
         const accessToken = createAccessToken(User._id)
-        res.cookie('accessToken', accessToken, { maxAge: 60000 * 15 })
+        res.cookie('accessToken', accessToken, { maxAge: 60000 * 5 })
 
         const refreshToken = createRefreshToken(User._id)
         res.cookie('refreshToken', refreshToken, { maxAge: 60000 * 60 * 24, httpOnly: true })
@@ -31,7 +31,7 @@ const Login = async (req, res) => {
         const User = await userModel.login(email, password)
 
         const accessToken = createAccessToken(User._id)
-        res.cookie('accessToken', accessToken, { maxAge: 60000 * 15 })
+        res.cookie('accessToken', accessToken, { maxAge: 60000 * 5 })
 
         const refreshToken = createRefreshToken(User._id)
         res.cookie('refreshToken', refreshToken, { maxAge: 60000 * 60 * 24, httpOnly: true })
