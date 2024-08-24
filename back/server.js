@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose')
-const cors = require('cors')
+//const cors = require('cors')
 const verifyAccessToken = require('./middleware/verifyToken');
 const verifyCurrentCompany = require('./middleware/verifyCurrentCompany')
 const cookieParser = require('cookie-parser');
@@ -13,13 +13,15 @@ const { createIncome, getAllIncome, deleteIncome, getIncome, editIncome } = requ
 const { createBill, getAllBills, deleteBill, getBill, editBill } = require('./controllers/billController');
 const { createPayment, getAllPayments, deletePayment, getPayment, editPayment } = require('./controllers/paymentController');
 const { createClient, getAllClients, getClient, editClient, deleteClient } = require('./controllers/clientController');
+const cors = require('./middleware/cors');
 
 const app = express();
-app.use(cors({
+app.use(cors)
+/* app.use(cors({
     origin: ['https://fluxloop.vercel.app'],
     methods: ['POST', 'GET', 'DELETE', 'PUT'],
     credentials: true
-}))
+})) */
 app.use(express.json())
 app.use(cookieParser())
 
