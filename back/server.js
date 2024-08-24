@@ -97,3 +97,5 @@ app.get('/payments', getAllPayments)
 app.post('/deletePayment', deletePayment)
 app.get('/payment', getPayment)
 app.post('/editPayment', editPayment)
+
+module.exports = app
