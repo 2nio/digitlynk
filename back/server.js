@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors({
-    origin: ['https://fluxloop-api.vercel.app'],
+    origin: ['https://fluxloop.vercel.app'],
     methods: ['POST', 'GET'],
     credentials: true
 }))
