@@ -6,25 +6,19 @@ function Navbar() {
   return (
     <nav className='Nav_nav_navbar'>
       <a href='/' className='Navbar_a_logo'>
-        <div className='Navbar_div_logo'><img className='Navbar_img_logo' src='./linkincon_new.png'></img>DigitLynk</div>
+        <div className='Navbar_div_logo'><img className='Navbar_img_logo' src='./linkincon_new.png'></img>Fluxloop</div>
       </a>
       <ul>
         <li>
-          <a href='/workflow'>WORKFLOW</a>
+          <a href='https://github.com/2nio' target='blank'>CONTACT</a>
         </li>
         <li>
-          <a href='/solutions'>SOLUTIONS</a>
-        </li>
-        <li>
-          <a href='/pricing'>PRICING</a>
-        </li>
-        <li>
-          <a href='/contact'>CONTACT</a>
-        </li>
-        <li>
-          <a href='/login'>LOGIN</a>
+          <a href='/signup'>SIGN UP</a>
         </li>
 
+        <li>
+          <a href='/myaccount'>LOG IN</a>
+        </li>
       </ul>
     </nav>
   )

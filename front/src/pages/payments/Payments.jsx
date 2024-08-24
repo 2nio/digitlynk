@@ -10,6 +10,7 @@ import { usePost } from '../../hooks/usePost';
 
 function Payments() {
 
+    const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
     const [menu, setMenu] = useState('')
     const [dropmenu, setDropMenu] = useState(false)
     const [popupPayment, setPopupPayment] = useState(false)
@@ -19,7 +20,7 @@ function Payments() {
     const { postData: deletePayment } = usePost('deletePayment')
 
     useEffect(() => {
-        document.title = "DigitLynk | Payments"
+        document.title = "Fluxloop | Payments"
     }, [])
 
     return (
@@ -50,7 +51,7 @@ function Payments() {
                             <p className='Revenue_p_critInfo'>{item.date}</p>
                             <p className='Revenue_p_critInfo'>{item.clientId?.name}</p>
                             <p className='Revenue_p_critInfo'>{item.bill?.number || '-'}</p>
-                            <p className='Revenue_p_critAmount'>{item.amount}€</p>
+                            <p className='Revenue_p_critAmount'>{item.amount}{business?.currency}</p>
                             <div style={{ width: '20px' }}>
                                 <RiArrowDropDownLine className='Revenue_DropdownArrow'
                                     onClick={e => { setDropMenu(!dropmenu); setMenu(payments.indexOf(item) + 1) }} size={'1.6rem'} />

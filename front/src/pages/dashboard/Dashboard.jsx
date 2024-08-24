@@ -36,9 +36,13 @@ function Dashboard() {
   const incArr = Object.keys(incByCat).map(item => ({ category: item, amount: incByCat[item] }));
 
   useEffect(() => {
-    document.title = "DigitLynk | Dashboard"
+    document.title = "Fluxloop | Dashboard"
   }, [])
-
+  /*{(invoices?.filter(item => item.status === business?.settings?.displayInvoices)
+              .reduce((a, v) => a = a + v.productList
+                .reduce((a, v) => a = a + v.amount, 0), 0) + invoices?.filter(item => item.status === business?.settings?.displayInvoices)
+                  .reduce((a, v) => a = a + v.productList
+                    .reduce((a, v) => a = a + v.amount, 0), 0) * 0.19).toFixed(2)}*/
   return (
     <div className='All_div_main'>
       <Menu />
@@ -56,9 +60,7 @@ function Dashboard() {
           </div>
           <p className='Dashboard_p_invMoney'>{(invoices?.filter(item => item.status === business?.settings?.displayInvoices)
             .reduce((a, v) => a = a + v.productList
-              .reduce((a, v) => a = a + v.amount, 0), 0) + invoices?.filter(item => item.status === business?.settings?.displayInvoices)
-                .reduce((a, v) => a = a + v.productList
-                  .reduce((a, v) => a = a + v.amount, 0), 0) * 0.08).toFixed(2)}€</p>
+              .reduce((a, v) => a = a + v.amount, 0), 0))?.toFixed(2)}{business?.currency} <span style={{ fontSize: '15px', color: 'lightgray' }}>{'(Without tax)'}</span></p>
           <div className='Dashboard_div_allInv' style={{ maxHeight: '82%' }}>
             {invoices?.filter(item => item.status === business?.settings?.displayInvoices).map((item, index) =>
               <div className='Dashboard_div_oneInv'>
@@ -67,7 +69,7 @@ function Dashboard() {
                   <p className='Dashboard_p_invEmail'>{item.number}</p>
                 </div>
                 <p className='Dashboard_p_invTotal'>{(item.productList.reduce((a, v) => a = a + v.amount, 0)
-                  + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
+                  + item.productList.reduce((a, v) => a = a + v.amount, 0) * (item.tax / 100)).toFixed(2)}{business?.currency}</p>
               </div>
             )}
           </div>
@@ -85,7 +87,7 @@ function Dashboard() {
             </select>
           </div>
           <p className='Dashboard_p_invMoney'>{bills?.filter(item => item.status === business?.settings?.displayBills)
-            .reduce((a, v) => a = a + v.amount, 0).toFixed(2)}€</p>
+            .reduce((a, v) => a = a + v.amount, 0).toFixed(2)}{business?.currency}</p>
           <div className='Dashboard_div_allInv' style={{ maxHeight: '82%' }}>
             {bills?.filter(item => item.status === business?.settings?.displayBills).map((item, index) =>
               <div className='Dashboard_div_oneInv'>
@@ -93,7 +95,7 @@ function Dashboard() {
                   <p className='Dashboard_p_invFirm'>{item.clientId?.name}</p>
                   <p className='Dashboard_p_invEmail'>{item.number}</p>
                 </div>
-                <p className='Dashboard_p_invTotal'>{item.amount.toFixed(2)}€</p>
+                <p className='Dashboard_p_invTotal'>{item.amount.toFixed(2)}{business?.currency}</p>
               </div>
             )}
           </div>
@@ -103,14 +105,14 @@ function Dashboard() {
           <div className='Dashboard_div_revenueAndExpenses'>
             <div className='Dashboard_div_revenue'>
               <h1 className='Dashboard_h1_invoiceList'>Revenue</h1>
-              <p className='Dashboard_p_invMoney'>{incArr?.reduce((a, v) => a = a + v.amount, 0).toFixed(2)}€</p>
+              <p className='Dashboard_p_invMoney'>{incArr?.reduce((a, v) => a = a + v.amount, 0).toFixed(2)}{business?.currency}</p>
               <div className='Dashboard_div_allInv'>
                 {incArr.map(item =>
                   <div className='Dashboard_div_oneInv'>
                     <div className='Dashboard_div_invDetails'>
                       <p className='Dashboard_p_invFirm'>{item.category}</p>
                     </div>
-                    <p className='Dashboard_p_invTotal'>{item.amount?.toFixed(2)}€</p>
+                    <p className='Dashboard_p_invTotal'>{item.amount?.toFixed(2)}{business?.currency}</p>
                   </div>
                 )}
               </div>
@@ -118,14 +120,14 @@ function Dashboard() {
 
             <div className='Dashboard_div_revenue'>
               <h1 className='Dashboard_h1_invoiceList'>Expenses</h1>
-              <p className='Dashboard_p_invMoney'>{payArr?.reduce((a, v) => a = a + v.amount, 0).toFixed(2)}€</p>
+              <p className='Dashboard_p_invMoney'>{payArr?.reduce((a, v) => a = a + v.amount, 0).toFixed(2)}{business?.currency}</p>
               <div className='Dashboard_div_allInv'>
                 {payArr.map(item =>
                   <div className='Dashboard_div_oneInv'>
                     <div className='Dashboard_div_invDetails'>
                       <p className='Dashboard_p_invFirm'>{item.category}</p>
                     </div>
-                    <p className='Dashboard_p_invTotal'>{item.amount?.toFixed(2)}€</p>
+                    <p className='Dashboard_p_invTotal'>{item.amount?.toFixed(2)}{business?.currency}</p>
                   </div>
                 )}
               </div>
@@ -135,20 +137,20 @@ function Dashboard() {
           <div className='Dashboard_div_profitAndLoss'>
             <h1 className='Dashboard_h1_invoiceList'>Profit & Loss</h1>
             <p className='Dashboard_p_invMoney'>{(incArr?.reduce((a, v) => a = a + v.amount, 0)
-              - payArr?.reduce((a, v) => a = a + v.amount, 0)).toFixed(2)}€</p>
+              - payArr?.reduce((a, v) => a = a + v.amount, 0)).toFixed(2)}{business?.currency}</p>
             <div className='Dashboard_div_allInv'>
               <div className='Dashboard_div_oneInv'>
                 <div className='Dashboard_div_invDetails'>
                   <p className='Dashboard_p_invFirm'>Revenue</p>
                 </div>
-                <p className='Dashboard_p_invTotal'>{incArr?.reduce((a, v) => a = a + v.amount, 0).toFixed(2)}€</p>
+                <p className='Dashboard_p_invTotal'>{incArr?.reduce((a, v) => a = a + v.amount, 0).toFixed(2)}{business?.currency}</p>
               </div>
 
               <div className='Dashboard_div_oneInv'>
                 <div className='Dashboard_div_invDetails'>
                   <p className='Dashboard_p_invFirm'>Expenses</p>
                 </div>
-                <p className='Dashboard_p_invTotal'>{payArr?.reduce((a, v) => a = a + v.amount, 0).toFixed(2)}€</p>
+                <p className='Dashboard_p_invTotal'>{payArr?.reduce((a, v) => a = a + v.amount, 0).toFixed(2)}{business?.currency}</p>
               </div>
             </div>
           </div>

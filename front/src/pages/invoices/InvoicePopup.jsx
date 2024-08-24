@@ -59,8 +59,8 @@ function InvoicePopup({ view, setView, invoice, client }) {
                             <p className='CreateInv_p_peviewList'>{invoice?.productList?.indexOf(item) + 1}</p>
                             <p className='CreateInv_p_peviewList' style={{ width: '400px' }}>{item.productName}</p>
                             <p value={item.qty} className='CreateInv_p_peviewList'>{item.qty}</p>
-                            <p value={item.price} className='CreateInv_p_peviewList'>{item.price}€</p>
-                            <p className='CreateInv_p_peviewList'>{item.qty * item.price}€</p>
+                            <p value={item.price} className='CreateInv_p_peviewList'>{item.price}{business?.currency}</p>
+                            <p className='CreateInv_p_peviewList'>{item.qty * item.price}{business?.currency}</p>
                         </div>
                     )}
                     <div className='CreateInv_p_peviewBottom'>
@@ -70,16 +70,16 @@ function InvoicePopup({ view, setView, invoice, client }) {
                         <div>
                             <div className='CreateInv_p_peviewTotal'>
                                 <h3>SUBTOTAL</h3>
-                                <p>{invoice?.productList?.reduce((a, v) => a = a + v.amount, 0)}€</p>
+                                <p>{invoice?.productList?.reduce((a, v) => a = a + v.amount, 0)}{business?.currency}</p>
                             </div>
                             <div className='CreateInv_p_peviewTotal'>
-                                <h3>TAX</h3>
-                                <p>{(invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
+                                <h3>TAX{` (${invoice?.tax}%)`}</h3>
+                                <p>{(invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) * (invoice?.tax / 100)).toFixed(2)}{business?.currency}</p>
                             </div>
                             <div className='CreateInv_p_peviewTotal'>
                                 <h3>TOTAL</h3>
                                 <p>{(invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) +
-                                    invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
+                                    invoice?.productList?.reduce((a, v) => a = a + v.amount, 0) * (invoice?.tax / 100)).toFixed(2)}{business?.currency}</p>
                             </div>
                         </div>
                     </div>

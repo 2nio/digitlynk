@@ -15,11 +15,12 @@ function Income() {
     const [popupIncome, setPopupIncome] = useState(false)
     const [incomeInfo, setIncomeInfo] = useState()
 
+    const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
     const { data: income, loading: loadingIncome, fetchData: fetchIncome } = useFetch('allIncome')
     const { postData: deleteIncome, loading: loadingDeleteIncome } = usePost('deleteIncome')
 
     useEffect(() => {
-        document.title = "DigitLynk | Income"
+        document.title = "Fluxloop | Income"
     }, [])
 
     return (
@@ -50,7 +51,7 @@ function Income() {
                             <p className='Revenue_p_critInfo'>{item.date}</p>
                             <p className='Revenue_p_critInfo'>{item.clientId?.name}</p>
                             <p className='Revenue_p_critInfo'>{item.invoice?.number || '-'}</p>
-                            <p className='Revenue_p_critAmount'>{item.amount}€</p>
+                            <p className='Revenue_p_critAmount'>{item.amount}{business?.currency}</p>
                             <div style={{ width: '20px' }}>
                                 <RiArrowDropDownLine className='Revenue_DropdownArrow'
                                     onClick={e => { setDropMenu(!dropmenu); setMenu(income.indexOf(item) + 1) }} size={'1.6rem'} />

@@ -62,9 +62,13 @@ const editClient = async (req, res) => {
 }
 
 const deleteClient = async (req, res) => {
+    const authHeader = req.headers['authorization']
+    const accessToken = req.cookies.accessToken || authHeader.split(' ')[1]
     const { id } = req.body
     try {
-        await businessModel.findOneAndUpdate({ 'clients._id': id }, { $pull: { clients: { _id: id } } })
+        const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
+        const User = await userModel.findById(Token.id)
+        await businessModel.findOneAndUpdate(User.currentCompany, { $pull: { clients: id } })
         await clientModel.findByIdAndDelete(id)
         res.status(200).json('Client deleted')
     } catch (err) {

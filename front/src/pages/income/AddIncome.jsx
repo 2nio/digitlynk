@@ -46,10 +46,10 @@ function AddIncome({ contactType, choose, incomeInfo, invoiceInfo, popupIncome, 
         setClientId(invoiceInfo?.clientId?._id)
         setClientInput(invoiceInfo?.clientId?.name)
         setAmount(((invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) +
-            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2) -
+            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * (invoiceInfo?.tax / 100)).toFixed(2) -
             invoiceInfo?.payment.reduce((a, v) => a + v.amount, 0).toFixed(2)).toFixed(2))
         setMaxAmount(((invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) +
-            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2) -
+            invoiceInfo?.productList.reduce((a, v) => a = a + v.amount, 0) * (invoiceInfo?.tax / 100)).toFixed(2) -
             invoiceInfo?.payment.reduce((a, v) => a + v.amount, 0).toFixed(2)).toFixed(2))
     }, [invoiceInfo])
 

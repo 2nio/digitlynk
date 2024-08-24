@@ -22,6 +22,7 @@ function Bills() {
     const [popupPayment, setPopupPayment] = useState(false)
     const [billInfo, setBillInfo] = useState()
 
+    const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
     const { data: bills, loading: loadingBills, fetchData: fetchBills } = useFetch('bills')
     const { postData: deleteBill, loading: loadingdeleteBill } = usePost('deleteBill')
     const { postData: editBill, loading: loadingEditBill } = usePost('editBill')
@@ -46,7 +47,7 @@ function Bills() {
     }, [bills])
 
     useEffect(() => {
-        document.title = "DigitLynk | Bills"
+        document.title = "Fluxloop | Bills"
     }, [])
 
     useEffect(() => {
@@ -84,7 +85,7 @@ function Bills() {
                                 backgroundColor: item.status === 'Paid' ? '#06402B'
                                     : item.status === 'Overdue' ? '#cc5a2a' : item.status === 'Partially' && '#ff7600'
                             }}></span>{item.status}</p>
-                            <p className='Revenue_p_critAmount'>{item.amount}€</p>
+                            <p className='Revenue_p_critAmount'>{item.amount}{business?.currency}</p>
                             <div style={{ width: '20px' }}>
                                 <RiArrowDropDownLine className='Revenue_DropdownArrow'
                                     onClick={e => { setDropMenu(!dropmenu); setMenu(bills.indexOf(item) + 1) }} size={'1.6rem'} />

@@ -24,19 +24,20 @@ function Invoices() {
     const [invoiceInfo, setInvoiceInfo] = useState()
     const [client, setClient] = useState()
 
+    const { data: business, loading: loadingBusiness, fetchData: fetchBussines } = useFetch('business')
     const { data, loading, fetchData } = useFetch('invoices')
     const { postData: editInvoice, loading: loadingEditInvoice } = usePost('editInvoice')
     const { data: invoice, loading: loadingInvoice, fetchData: fetchInvoice } = useFetch('invoice')
     const { postData: deleteInvoice, loading: loadingDeleteInvoice } = usePost('deleteInvoice')
 
     useEffect(() => {
-        document.title = "DigitLynk | Invoices"
+        document.title = "Fluxloop | Invoices"
     }, [])
 
     useEffect(() => {
         data?.map(item => {
             const equalAmount = item.payment.reduce((a, v) => a + v.amount, 0).toFixed(2) ===
-                (item.productList.reduce((a, v) => a = a + v.amount, 0) + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)
+                (item.productList.reduce((a, v) => a = a + v.amount, 0) + item.productList.reduce((a, v) => a = a + v.amount, 0) * (item.tax / 100)).toFixed(2)
             if (item.status !== 'Received' && equalAmount) {
                 editInvoice({ id: item._id, data: { status: 'Received' } }, fetchData)
             }
@@ -88,7 +89,7 @@ function Invoices() {
                                     : item.status === 'Overdue' ? '#cc5a2a' : item.status === 'Partially' && '#ff7600'
                             }}></span>{item.status}</p>
                             <p className='Revenue_p_critAmount'>{(item.productList.reduce((a, v) => a = a + v.amount, 0)
-                                + item.productList.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
+                                + item.productList.reduce((a, v) => a = a + v.amount, 0) * (item.tax / 100)).toFixed(2)}{business?.currency}</p>
                             <div style={{ width: '20px' }}>
                                 <RiArrowDropDownLine className='Revenue_DropdownArrow'
                                     onClick={e => { setDropMenu(!dropmenu); setMenu(data.indexOf(item) + 1) }} size={'1.6rem'} />

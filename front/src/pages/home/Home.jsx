@@ -9,7 +9,6 @@ function Home() {
     <div>
       <Navbar />
       <Hero />
-      <About />
     </div>
   )
 }

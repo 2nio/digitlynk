@@ -12,7 +12,6 @@ import { usePost } from '../../../hooks/usePost';
 import { closePopup } from '../../../functions/closePopup';
 import Clients from './Clients';
 
-
 function Account({ popupState, setPopup }) {
 
     const { data, loading, fetchData } = useFetch('business')
@@ -31,6 +30,9 @@ function Account({ popupState, setPopup }) {
     const [phone, setPhone] = useState()
     const [email, setEmail] = useState()
     const [website, setWebsite] = useState()
+    const [currency, setCurrency] = useState()
+    const [tax, setTax] = useState()
+
 
     const clearState = () => {
         setCompany(); setAddress(); setBank(); setIBAN(); setPhone(); setEmail(); setWebsite()
@@ -51,7 +53,7 @@ function Account({ popupState, setPopup }) {
     }, [])
 
     const editBusiness = async () => {
-        await postData({ company, address, bank, IBAN, phone, email, website })
+        await postData({ company, address, bank, IBAN, phone, email, website, tax, currency })
         fetchData()
         setMenu('Account')
         popupRef.current.close()
@@ -96,6 +98,11 @@ function Account({ popupState, setPopup }) {
                                         <input defaultValue={data.IBAN} placeholder='IBAN' className='CreateInv_input'
                                             onChange={e => setIBAN(e.target.value)}></input>
                                     </label>
+                                    <label className='CreateInv_label'>
+                                        <p className='CreateInv_p_label'>{'TAX (%)'}</p>
+                                        <input defaultValue={data.tax} placeholder='Tax' type='number' className='CreateInv_input'
+                                            onChange={e => setTax(e.target.value)}></input>
+                                    </label>
                                 </div>
                                 <div className='CreateInv_div_popupInfoChild'>
                                     <label className='CreateInv_label'>
@@ -118,6 +125,15 @@ function Account({ popupState, setPopup }) {
                                         <input defaultValue={data.website} placeholder='Website' className='CreateInv_input'
                                             onChange={e => setWebsite(e.target.value)}></input>
                                     </label>
+                                    <label className='CreateInv_label'>
+                                        <p className='CreateInv_p_label'>CURRENCY</p>
+                                        <select className='CreateInv_select' defaultValue={data.currency} onChange={e => setCurrency(e.target.value)}>
+                                            <option value=" €"> €</option>
+                                            <option value="¥">¥</option>
+                                            <option value="£">£</option>
+                                            <option value="$">$</option>
+                                        </select>
+                                    </label>
                                 </div>
                             </div>
                             <div className='CreateInv_div_popupInfoBottom'>
@@ -139,7 +155,6 @@ function Account({ popupState, setPopup }) {
             }
             <Users setMenuState={value => setMenu(value)} menuState={menu} />
             <Clients setMenuState={value => setMenu(value)} menuState={menu} />
-
         </dialog>
     )
 }

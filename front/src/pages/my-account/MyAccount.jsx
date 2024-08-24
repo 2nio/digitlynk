@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 
-import { FaRegUser } from "react-icons/fa";
 import './MyAccount.css'
 import { useFetch } from '../../hooks/useFetch';
 import { useSignout } from '../../hooks/useSignout';
@@ -32,7 +31,7 @@ function MyAccount() {
                 <p className='Signup_p_titleLeft' style={{ marginBottom: '32px', fontSize: '48px' }}>Hello {data.name}</p>
                 <nav className='MyAcc_nav_navbar'>
                     <a href='/' className='Navbar_a_logo'>
-                        <div className='Navbar_div_logo'><img className='Navbar_img_logo' src='./linkincon_new.png'></img>DigitLynk</div>
+                        <div className='Navbar_div_logo'><img className='Navbar_img_logo' src='./linkincon_new.png'></img>Fluxloop</div>
                     </a>
                     <ul>
                         <li>

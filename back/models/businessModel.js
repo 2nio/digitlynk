@@ -24,6 +24,11 @@ const businessSchema = new mongoose.Schema({
     phone: String,
     email: String,
     website: String,
+    currency: {
+        type: String,
+        default: '€'
+    },
+    tax: Number,
     clients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Clients' }],
     settings: {
         displayInvoices: String,

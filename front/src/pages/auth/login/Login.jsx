@@ -18,8 +18,9 @@ function Login() {
             }
             <div className='Signup_div_main'>
                 <div className='Signup_div_left'>
-                    <div className='Signup_div_logo'><img className='Navbar_img_logo' src='./linkincon_new.png'></img>DigitLynk</div>
-                    <p className='Signup_p_titleLeft'>Log into your account</p>
+                    <a href='/' className='Navbar_a_logo'>
+                        <div className='Navbar_div_logo'><img className='Navbar_img_logo' src='./linkincon_new.png'></img>Fluxloop</div>
+                    </a>                    <p className='Signup_p_titleLeft'>Log into your account</p>
                     <p className='Signup_p_subtitle'>All your invoices, income, bills, payments, clients and providers in one place </p>
                 </div>
                 <div className='Signup_div_signup'>

@@ -6,7 +6,7 @@ const verifyCurrentCompany = require('./middleware/verifyCurrentCompany')
 const cookieParser = require('cookie-parser');
 require('dotenv').config()
 //Controllers
-const { Signup, Login, getUser, Signout, setCurrentCompany, findUser } = require('./controllers/userController')
+const { Signup, Login, getUser, Signout, setCurrentCompany, findUser, addUser, removeUser } = require('./controllers/userController')
 const { createBusiness, getBusiness, editBusiness } = require('./controllers/businessController')
 const { createInvoice, getAllInvoices, getInvoice, editInvoice, deleteInvoice } = require('./controllers/invoiceController')
 const { createIncome, getAllIncome, deleteIncome, getIncome, editIncome } = require('./controllers/incomeController')
@@ -22,7 +22,7 @@ app.use(cors({
     credentials: true
 }))
 
-mongoose.connect('mongodb+srv://cereals:antoni85A@cluster0.uf79cow.mongodb.net/DigitLynkDB?retryWrites=true&w=majority')
+mongoose.connect(`mongodb+srv://cereals:${process.env.DB_PASS}@cluster0.uf79cow.mongodb.net/DigitLynkDB?retryWrites=true&w=majority`)
     .then(() => {
         console.log('Connected to MongoDB Atlas');
         app.listen(3001, () => {
@@ -51,6 +51,8 @@ app.use(verifyCurrentCompany)
 
 //User
 app.get('user:id', findUser)
+app.post('/addUser', addUser)
+app.post('/removeUser', removeUser)
 
 //Business
 app.get('/business', getBusiness)

@@ -1,3 +1,4 @@
+const businessModel = require('../models/businessModel')
 const userModel = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
@@ -5,19 +6,18 @@ const createAccessToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_ACCESS_SECRET, { expiresIn: '15m' })
 }
 const createRefreshToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '60m' })
+    return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '24h' })
 }
 
 const Signup = async (req, res) => {
     const { name, email, password } = req.body
     try {
         const User = await userModel.signup(email, password, name)
-
         const accessToken = createAccessToken(User._id)
         res.cookie('accessToken', accessToken, { maxAge: 60000 * 15 })
 
         const refreshToken = createRefreshToken(User._id)
-        res.cookie('refreshToken', refreshToken, { maxAge: 60000 * 60, httpOnly: true })
+        res.cookie('refreshToken', refreshToken, { maxAge: 60000 * 60 * 24, httpOnly: true })
 
         res.status(200).json('Account created')
     } catch (err) {
@@ -34,7 +34,7 @@ const Login = async (req, res) => {
         res.cookie('accessToken', accessToken, { maxAge: 60000 * 15 })
 
         const refreshToken = createRefreshToken(User._id)
-        res.cookie('refreshToken', refreshToken, { maxAge: 60000 * 60, httpOnly: true })
+        res.cookie('refreshToken', refreshToken, { maxAge: 60000 * 60 * 24, httpOnly: true })
 
         res.status(200).json('Account logged')
     } catch (err) {
@@ -81,11 +81,45 @@ const setCurrentCompany = async (req, res) => {
     const { companyId } = req.body
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
-        const User = await userModel.findByIdAndUpdate(Token.id, { currentCompany: companyId })
+        await userModel.findByIdAndUpdate(Token.id, { currentCompany: companyId })
         res.status(200).json('Company set')
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
 }
 
-module.exports = { Signup, Login, Signout, createAccessToken, getUser, setCurrentCompany, findUser }
+const addUser = async (req, res) => {
+    const authHeader = req.headers['authorization']
+    const accessToken = req.cookies.accessToken || authHeader.split(' ')[1]
+    const { email } = req.body
+    try {
+        const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
+        const User = await userModel.findById(Token.id)
+        const invitedUser = await userModel.findOne({ email })
+        const Business = await businessModel.findByIdAndUpdate(User.currentCompany, { $push: { users: { id: invitedUser._id, role: 'viewer' } } })
+        await userModel.findOneAndUpdate({ email }, { $push: { companies: { id: Business._id, role: 'viewer' } } })
+        res.status(200).json('User added')
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+
+}
+
+const removeUser = async (req, res) => {
+    const authHeader = req.headers['authorization']
+    const accessToken = req.cookies.accessToken || authHeader.split(' ')[1]
+    const { email } = req.body
+    try {
+        const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
+        const User = await userModel.findById(Token.id)
+        const invitedUser = await userModel.findOne({ email })
+        const Business = await businessModel.findByIdAndUpdate(User.currentCompany, { $pull: { users: { id: invitedUser._id } } })
+        await userModel.findOneAndUpdate({ email }, { $pull: { companies: { id: Business._id } } })
+        res.status(200).json('User removed')
+    } catch (error) {
+        res.status(400).json({ error: error.message })
+    }
+
+}
+
+module.exports = { Signup, Login, Signout, createAccessToken, getUser, setCurrentCompany, findUser, addUser, removeUser }

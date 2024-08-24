@@ -22,6 +22,8 @@ function CreateInvoice() {
     const [edit, setEdit] = useState(false)
     const [preview, setPreview] = useState(false)
 
+    const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
+
     //Main div inputs
     const [clientId, setClientId] = useState()
     const [invoice, setInvoice] = useState("")
@@ -29,14 +31,14 @@ function CreateInvoice() {
     const [dueDate, setDue] = useState("")
     const [number, setNumber] = useState("")
     const [note, setNote] = useState("")
+    const [tax, setTax] = useState()
 
-    const { data: business, loading: loadingBusiness, fetchData: fetchBusiness } = useFetch('business')
     //const { data: invoice, loading: loadingInvoice, fetchData: fetchInvoice } = useFetch('invoice')
     const { postData, loading } = usePost('invoice')
     const { postData: editInvoice, loading: loadingEditInvoice } = usePost('editInvoice')
 
     useEffect(() => {
-        document.title = "DigitLynk | Create invoice"
+        document.title = "Fluxloop | Create invoice"
         /* fetchInvoice({ params: { id: invoiceId } }, () => {
             fetchClient({ params: { id: invoice?.clientId } })
             setClientId(invoice?.clientId)
@@ -53,6 +55,7 @@ function CreateInvoice() {
                     setNote(res.data.note)
                     setProductList(res.data.productList)
                     setClientId(res.data.companyId?._id)
+                    setTax(res.data.tax)
                 } catch (error) {
                     console.log(error)
                     if (error.response.data.error === 'ExpiredRefreshToken') {
@@ -64,11 +67,15 @@ function CreateInvoice() {
         }
     }, [])
 
+    useEffect(() => {
+        setTax(business?.tax)
+    }, [business])
+
     const AddProduct = () => {
-        const qty = ""
+        const qty = 0
         const productName = ''
-        const price = ""
-        const amount = ""
+        const price = 0
+        const amount = 0
         const product = {
             id: Math.floor(Math.random() * 10000000),
             productName,
@@ -99,15 +106,23 @@ function CreateInvoice() {
                                 clientCompany={invoice?.clientId?.name} sendClient={data => setClientId(data)} />
                             <label className='CreateInv_label'>
                                 <p className='CreateInv_p_label'>DATE</p>
-                                <input defaultValue={invoice?.date} placeholder='Date' type='date' className='CreateInv_input' onChange={e => setDate(e.target.value)}></input>
+                                <input defaultValue={invoice?.date} placeholder='Date' type='date' className='CreateInv_input'
+                                    onChange={e => setDate(e.target.value)}></input>
                             </label>
                             <label className='CreateInv_label'>
                                 <p className='CreateInv_p_label'>DUE DATE</p>
-                                <input defaultValue={invoice?.dueDate} placeholder='Due Date' type='date' className='CreateInv_input' onChange={e => setDue(e.target.value)}></input>
+                                <input defaultValue={invoice?.dueDate} placeholder='Due Date' type='date' className='CreateInv_input'
+                                    onChange={e => setDue(e.target.value)}></input>
                             </label>
                             <label className='CreateInv_label'>
                                 <p className='CreateInv_p_label'>NUMBER</p>
-                                <input defaultValue={invoice?.number} placeholder='Invoice number' className='CreateInv_input' onChange={e => setNumber(e.target.value)}></input>
+                                <input defaultValue={invoice?.number} placeholder='Invoice number' className='CreateInv_input'
+                                    onChange={e => setNumber(e.target.value)}></input>
+                            </label>
+                            <label className='CreateInv_label'>
+                                <p className='CreateInv_p_label'>{'TAX (%)'}</p>
+                                <input defaultValue={tax} placeholder='VAT' className='CreateInv_input'
+                                    onChange={e => setTax(e.target.value)}></input>
                             </label>
                         </div>
                         <div className='CreateInv_div_products'>
@@ -131,14 +146,14 @@ function CreateInvoice() {
                                         }}
                                         value={item.productName}
                                     />
-                                    <input value={item.qty} className='CreateInv_input_critInfo' placeholder='Qty'
+                                    <input value={item.qty} className='CreateInv_input_critInfo' placeholder='Qty' type='number'
                                         onChange={e => {
                                             const itemIndex = productList.findIndex(entry => entry.id === item.id)
                                             productList[itemIndex].qty = e.target.value
                                             productList[itemIndex].amount = e.target.value * productList[itemIndex].price
                                             setEdit(true)
                                         }} ></input>
-                                    <input value={item.price} className='CreateInv_input_critInfo' placeholder='Price'
+                                    <input value={item.price} className='CreateInv_input_critInfo' placeholder='Price' type='number'
                                         onChange={e => {
                                             const itemIndex = productList.findIndex(entry => entry.id === item.id)
                                             productList[itemIndex].price = e.target.value
@@ -146,7 +161,7 @@ function CreateInvoice() {
                                             setEdit(true)
                                         }}
                                     ></input>
-                                    <p className='Revenue_p_critAmount'>{item.qty * item.price}€</p>
+                                    <p className='Revenue_p_critAmount'>{item.qty * item.price}{business?.currency}</p>
                                     <div style={{ width: '20px' }}><IoCloseOutline onClick={e => {
                                         setProductList((current) => current.filter(obj => obj.id !== item.id))
                                         setEdit(true)
@@ -166,12 +181,12 @@ function CreateInvoice() {
                                 <button className='CreateInv_button_bottom' onClick={invoiceId ?
                                     () => editInvoice({
                                         id: invoiceId, data: {
-                                            clientId, date, dueDate, number, note, productList
+                                            clientId, date, dueDate, number, note, productList, tax
                                         }
                                     },
                                         () => navigate('/invoices')) :
                                     () => postData({
-                                        companyId: business._id, clientId, date, dueDate, number, note, productList
+                                        companyId: business._id, clientId, date, dueDate, number, note, productList, tax
                                     },
                                         () => navigate('/invoices'))
                                 }>Save</button>
@@ -184,7 +199,6 @@ function CreateInvoice() {
                         <div className='CreateInv_div_bottomButtons'>
                             <button className='CreateInv_button_secondary' onClick={e => setPreview(false)}>Back</button>
                             <button className='CreateInv_button_secondary' onClick={handlePrint}>Print</button>
-                            <button className='CreateInv_button_secondary'>Download</button>
                         </div>
                     </div>
                     <main className='CreateInv_div_preview print'>
@@ -223,8 +237,8 @@ function CreateInvoice() {
                                 <p className='CreateInv_p_peviewList'>{productList.indexOf(item) + 1}</p>
                                 <p className='CreateInv_p_peviewList' style={{ width: '400px' }}>{item.productName}</p>
                                 <p value={item.qty} className='CreateInv_p_peviewList'>{item.qty}</p>
-                                <p value={item.price} className='CreateInv_p_peviewList'>{item.price}€</p>
-                                <p className='CreateInv_p_peviewList'>{item.qty * item.price}€</p>
+                                <p value={item.price} className='CreateInv_p_peviewList'>{item.price}{business?.currency}</p>
+                                <p className='CreateInv_p_peviewList'>{item.qty * item.price}{business?.currency}</p>
                             </div>
                         )}
                         <div className='CreateInv_p_peviewBottom'>
@@ -234,15 +248,16 @@ function CreateInvoice() {
                             <div>
                                 <div className='CreateInv_p_peviewTotal'>
                                     <h3>SUBTOTAL</h3>
-                                    <p>{productList?.reduce((a, v) => a = a + v.amount, 0)}€</p>
+                                    <p>{productList?.reduce((a, v) => a = a + v.amount, 0)}{business?.currency}</p>
                                 </div>
                                 <div className='CreateInv_p_peviewTotal'>
-                                    <h3>TAX</h3>
-                                    <p>{(productList?.reduce((a, v) => a = a + v.amount, 0) * 0.08).toFixed(2)}€</p>
+                                    <h3>TAX{` (${tax}%)`}</h3>
+                                    <p>{(productList?.reduce((a, v) => a = a + v.amount, 0) * (tax / 100)).toFixed(2)}{business?.currency}</p>
                                 </div>
                                 <div className='CreateInv_p_peviewTotal'>
                                     <h3>TOTAL</h3>
-                                    <p>{productList?.reduce((a, v) => a = a + v.amount, 0) + productList?.reduce((a, v) => a = a + v.amount, 0) * 0.08}€</p>
+                                    <p>{(productList?.reduce((a, v) => a = a + v.amount, 0) +
+                                        productList?.reduce((a, v) => a = a + v.amount, 0) * (tax / 100)).toFixed(2)}{business?.currency}</p>
                                 </div>
                             </div>
                         </div>

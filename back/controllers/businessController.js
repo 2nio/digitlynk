@@ -9,7 +9,7 @@ const createBusiness = async (req, res) => {
     try {
         const Token = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
         const Business = await businessModel.create({ company, address, owner: Token.id, users: { id: Token.id, role: 'owner' } })
-        const User = await userModel.findByIdAndUpdate(Token.id, { $push: { companies: { id: Business._id, name: Business.company, role: 'owner' } } })
+        const User = await userModel.findByIdAndUpdate(Token.id, { $push: { companies: { id: Business._id, role: 'owner' } } })
 
         res.status(200).json('Business created')
     } catch (err) {

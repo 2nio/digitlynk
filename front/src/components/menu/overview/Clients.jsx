@@ -26,9 +26,9 @@ function Clients({ menuState, setMenuState }) {
                 <IoChevronBack onClick={e => setMenuState('Account')} size={'1.6rem'} style={{ marginRight: '4px' }} /> {menuState}
             </h1>
             <div className='Revenue_div_entryCrit'>
-                <p className='Revenue_p_crit'>NO</p>
-                <p className='Revenue_p_crit'>COMPANY</p>
-                <p className='Revenue_p_crit'>PHONE</p>
+                <p className='Revenue_p_crit'>No.</p>
+                <p className='Revenue_p_crit'>Company</p>
+                <p className='Revenue_p_crit'>Phone</p>
                 <div style={{ width: '20px' }}><IoAdd onClick={e => { setClient(); setShowDialog(true) }} size={'1.4rem'} /></div>
             </div>
 
