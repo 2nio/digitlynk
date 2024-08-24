@@ -15,13 +15,13 @@ const { createPayment, getAllPayments, deletePayment, getPayment, editPayment } 
 const { createClient, getAllClients, getClient, editClient, deleteClient } = require('./controllers/clientController');
 
 const app = express();
-app.use(express.json())
-app.use(cookieParser())
 app.use(cors({
     origin: ['https://fluxloop.vercel.app'],
-    methods: ['POST', 'GET', 'DELETE'],
+    methods: ['POST', 'GET', 'DELETE', 'PUT'],
     credentials: true
 }))
+app.use(express.json())
+app.use(cookieParser())
 
 mongoose.connect(`mongodb+srv://cereals:${process.env.DB_PASS}@cluster0.uf79cow.mongodb.net/DigitLynkDB?retryWrites=true&w=majority`)
     .then(() => {
