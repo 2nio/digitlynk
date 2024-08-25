@@ -7,6 +7,12 @@ const { createAccessToken } = require('../controllers/userController')
 const app = express();
 app.use(cookieParser())
 
+const accessOptions = {
+    maxAge: 60000 * 5,
+    sameSite: "none",
+    secure: true,
+};
+
 const verifyAccessToken = (req, res, next) => {
     const accessToken = req.cookies.accessToken
 
@@ -24,11 +30,11 @@ const verifyAccessToken = (req, res, next) => {
                     if (verifyRefreshToken(res, req)) {
                         next()
                     }
-                //Any other error
+                    //Any other error
                 } else {
                     res.status(401).json(`JWT Verify Access error: ${err.name}`)
                 }
-            //Give access:
+                //Give access:
             } else {
                 const User = userModel.findById(decoded.id)
                 if (User) {
@@ -61,7 +67,7 @@ const verifyRefreshToken = (res, req) => {
                 const User = userModel.findById(decoded.id)
                 if (User) {
                     const accessToken = createAccessToken(decoded.id)
-                    res.cookie('accessToken', accessToken, { maxAge: 60000 * 5})
+                    res.cookie('accessToken', accessToken, accessOptions)
                     accessTokenCreated = true
                     req.headers['authorization'] = `Bearer ${accessToken}`;
                 } else {

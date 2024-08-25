@@ -54,27 +54,22 @@ userSchema.statics.signup = async function (email, password, name) {
 
 //Login Method
 userSchema.statics.login = async function (email, password) {
-    console.log('in model')
 
     if (!email || !password) {
         throw Error('All fields must be completed')
     }
-    console.log('after error')
 
     const account = await this.findOne({ email })
-    console.log('after find account')
 
     if (!account) {
         throw Error('Incorrect credentials')
     }
-    console.log('after inc email')
 
     const passwordMatch = await bcrypt.compare(password, account.password)
 
     if (!passwordMatch) {
         throw Error('Incorrect credentials')
     }
-    console.log('after inc pass')
 
     return account
 }

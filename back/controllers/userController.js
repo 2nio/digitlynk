@@ -9,15 +9,29 @@ const createRefreshToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, { expiresIn: '24h' })
 }
 
+const refreshOptions = {
+    httpOnly: true,
+    maxAge: 60000 * 60 * 24,
+    sameSite: "none",
+    secure: true,
+};
+
+const accessOptions = {
+    maxAge: 60000 * 5,
+    sameSite: "none",
+    secure: true,
+};
+
+
 const Signup = async (req, res) => {
     const { name, email, password } = req.body
     try {
         const User = await userModel.signup(email, password, name)
         const accessToken = createAccessToken(User._id)
-        res.cookie('accessToken', accessToken, { maxAge: 60000 * 5 })
+        res.cookie('accessToken', accessToken, accessOptions)
 
         const refreshToken = createRefreshToken(User._id)
-        res.cookie('refreshToken', refreshToken, { maxAge: 60000 * 60 * 24, httpOnly: true })
+        res.cookie('refreshToken', refreshToken, refreshOptions)
 
         res.status(200).json('Account created')
     } catch (err) {
@@ -28,15 +42,13 @@ const Signup = async (req, res) => {
 const Login = async (req, res) => {
     const { email, password } = req.body
     try {
-        console.log('controller')
         const User = await userModel.login(email, password)
-        console.log('after model')
 
         const accessToken = createAccessToken(User._id)
-        res.cookie('accessToken', accessToken, { maxAge: 60000 * 5 })
+        res.cookie('accessToken', accessToken, accessOptions)
 
         const refreshToken = createRefreshToken(User._id)
-        res.cookie('refreshToken', refreshToken, { maxAge: 60000 * 60 * 24, httpOnly: true })
+        res.cookie('refreshToken', refreshToken, refreshOptions)
 
         res.status(200).json('Account logged')
     } catch (err) {

@@ -10,7 +10,6 @@ export const useAuth = (route, data) => {
     const [error, setError] = useState()
 
     const authAccount = () => {
-        console.log('start')
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/${route}`, data)
             .then(res => {
                 if (res.status === 200) {
