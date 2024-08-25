@@ -28,7 +28,10 @@ const businessSchema = new mongoose.Schema({
         type: String,
         default: '€'
     },
-    tax: Number,
+    tax: {
+        type: Number,
+        default: 0
+    },
     clients: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Clients' }],
     settings: {
         displayInvoices: String,

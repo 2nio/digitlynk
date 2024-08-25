@@ -28,7 +28,10 @@ const invoiceSchema = new mongoose.Schema({
         type: String,
         default: 'Issued'
     },
-    tax: Number,
+    tax: {
+        type: Number,
+        default: 0
+    },
     productList: [{
         id: Number,
         productName: String,
