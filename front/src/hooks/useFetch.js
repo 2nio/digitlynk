@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 
 import axios from 'axios'
-//axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true
 
 export const useFetch = (route) => {
 

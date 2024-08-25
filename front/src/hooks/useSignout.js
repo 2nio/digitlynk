@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import axios from 'axios'
-//axios.defaults.withCredentials = true
+axios.defaults.withCredentials = true
 
 export const useSignout = (route) => {
     const navigate = useNavigate()
