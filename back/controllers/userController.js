@@ -57,8 +57,8 @@ const Login = async (req, res) => {
 }
 
 const Signout = async (req, res) => {
-    res.cookie('refreshToken', '', { maxAge: 1, httpOnly: true })
-    res.cookie('accessToken', '', { maxAge: 1 })
+    res.cookie('refreshToken', '', { maxAge: 1, httpOnly: true, sameSite: 'none', secure: true })
+    res.cookie('accessToken', '', { maxAge: 1, sameSite: 'none', secure: true })
     res.status(200).json('Signed out')
 }
 
