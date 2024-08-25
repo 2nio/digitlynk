@@ -28,7 +28,9 @@ const Signup = async (req, res) => {
 const Login = async (req, res) => {
     const { email, password } = req.body
     try {
+        console.log('controller')
         const User = await userModel.login(email, password)
+        console.log('after model')
 
         const accessToken = createAccessToken(User._id)
         res.cookie('accessToken', accessToken, { maxAge: 60000 * 5 })

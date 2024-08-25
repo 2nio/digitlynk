@@ -54,10 +54,12 @@ userSchema.statics.signup = async function (email, password, name) {
 
 //Login Method
 userSchema.statics.login = async function (email, password) {
+    console.log('in model')
 
     if (!email || !password) {
         throw Error('All fields must be completed')
     }
+    console.log('after error')
 
     const account = await this.findOne({ email })
 
