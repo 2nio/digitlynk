@@ -68,7 +68,7 @@ function CreateInvoice() {
     }, [])
 
     useEffect(() => {
-        setTax(business?.tax)
+        !invoiceId && setTax(business?.tax)
     }, [business])
 
     const AddProduct = () => {
