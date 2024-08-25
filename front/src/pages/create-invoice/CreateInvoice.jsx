@@ -121,7 +121,7 @@ function CreateInvoice() {
                             </label>
                             <label className='CreateInv_label'>
                                 <p className='CreateInv_p_label'>{'TAX (%)'}</p>
-                                <input defaultValue={tax} placeholder='VAT' className='CreateInv_input' type='number'
+                                <input defaultValue={tax} placeholder='VAT' className='CreateInv_input' min='.1' step={'any'} max={'100'}
                                     onChange={e => setTax(e.target.value)}></input>
                             </label>
                         </div>

@@ -3,10 +3,10 @@ const userModel = require('../models/userModel')
 const jwt = require('jsonwebtoken')
 
 const createInvoice = async (req, res) => {
-    const { companyId, clientId, clientCompany, date, dueDate, number, note, productList } = req.body
+    const { companyId, clientId, clientCompany, date, dueDate, number, note, productList, tax } = req.body
 
     try {
-        const invoice = await invoiceModel.create({ companyId, clientId, clientCompany, date, dueDate, number, note, productList })
+        await invoiceModel.create({ companyId, clientId, clientCompany, date, dueDate, number, note, productList, tax })
         res.status(200).json('Invoice created')
     } catch (err) {
         res.status(400).json({ error: err.message })
