@@ -9,11 +9,11 @@ export const useAuth = (route, data) => {
     const navigate = useNavigate()
     const [error, setError] = useState()
 
-    const authAccount = (e) => {
-        e.preventDefault()
-
+    const authAccount = () => {
+        console.log('start')
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/${route}`, data)
             .then(res => {
+                console.log('here')
                 if (res.status === 200) {
                     navigate('/myaccount')
                 }
